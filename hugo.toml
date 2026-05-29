@@ -2,7 +2,7 @@ baseURL = "https://yourname.com/"
 languageCode = "zh-cn"
 title = "Povaka的求索之路"
 theme = "PaperMod"
-paginate = 10
+pagination.pagerSize = 10
 
 [params]
   author = "Povaka"
