@@ -1,0 +1,43 @@
+baseURL = "https://yourname.com/"
+languageCode = "zh-cn"
+title = "Povaka的求索之路"
+theme = "PaperMod"
+paginate = 10
+
+[params]
+  author = "Povaka"
+  description = "学术写作 · 技术分享 · 生活随笔"
+  ShowReadingTime = true
+  ShowPostNavLinks = true
+  ShowCodeCopyButtons = true
+  math = true
+
+[params.homeInfoParams]
+  Title = "Hello，我是 Povaka"
+  Content = "研究方向 XX，这里记录学术思考与技术探索"
+
+[[params.socialIcons]]
+  name = "github"
+  url = "https://github.com/Linon911"
+
+[[params.socialIcons]]
+  name = "email"
+  url = "mailto:your@email.com"
+
+[menu]
+  [[menu.main]]
+    name = "学术写作"
+    url = "/academic/"
+    weight = 1
+  [[menu.main]]
+    name = "技术分享"
+    url = "/tech/"
+    weight = 2
+  [[menu.main]]
+    name = "生活随笔"
+    url = "/life/"
+    weight = 3
+  [[menu.main]]
+    name = "关于我"
+    url = "/about/"
+    weight = 4
