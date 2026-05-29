@@ -1,4 +1,4 @@
-baseURL = "https://yourname.com/"
+﻿baseURL = "https://yourname.com/"
 languageCode = "zh-cn"
 title = "Povaka的求索之路"
 theme = "PaperMod"
@@ -22,7 +22,7 @@ pagination.pagerSize = 10
 
 [[params.socialIcons]]
   name = "email"
-  url = "mailto:your@email.com"
+  url = "mailto:even86400@gmail.com"
 
 [menu]
   [[menu.main]]
