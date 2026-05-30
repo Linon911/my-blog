@@ -1,28 +1,67 @@
 ---
-title: "Research"
-description: "My current and ongoing research projects in international trade, technology transfer, and law & economics."
----
 
-My work sits at the intersection of international trade law, intellectual property, and the economics of innovation. I use both formal modelling and empirical methods to examine how legal institutions shape the diffusion of technology across borders.
+## title: "Research"
 
----
+# Research
 
-## Working Papers
-
-**TRIPS-Plus Provisions and Technology Transfer in Bilateral Trade Agreements**
-*Job Market Paper · 2026*
-This paper examines whether TRIPS-plus IP standards embedded in bilateral and regional trade agreements impede or accelerate technology transfer to developing countries. Using a difference-in-differences design across 47 agreements (1995–2020), I find that...
-
-**The WTO Dispute Settlement Mechanism: Institutional Capacity and Compliance**
-*Draft available on request · 2025*
-An empirical analysis of compliance patterns in WTO dispute settlement, with attention to asymmetries between developed and developing country respondents.
+My research focuses on the intersection of economics, law, and technological innovation.
 
 ---
 
-## Research Interests
+## Research Area 1
 
-- International trade law and WTO jurisprudence
-- Intellectual property protection and innovation spillovers
-- Foreign direct investment and technology licensing
-- Law and economics methodology
-- Comparative institutional analysis
+### Technology Transfer
+
+Technology transfer plays a central role in economic development and innovation diffusion.
+
+Current topics include:
+
+* Cross-border technology diffusion
+* Innovation incentives
+* Institutional environments
+* Technology licensing
+
+---
+
+## Research Area 2
+
+### Intellectual Property Protection
+
+Researching how intellectual property systems affect innovation and economic growth.
+
+Topics:
+
+* Judicial protection
+* Patent systems
+* Innovation policy
+* Knowledge spillovers
+
+---
+
+## Research Area 3
+
+### International Trade
+
+Interested in the relationship between trade openness and technological upgrading.
+
+Topics:
+
+* Global value chains
+* Trade and innovation
+* Comparative advantage
+* Technology-intensive industries
+
+---
+
+## Research Area 4
+
+### Law & Economics
+
+Applying economic reasoning to legal institutions.
+
+Topics:
+
+* Institutional economics
+* Regulatory design
+* Innovation policy
+* Economic analysis of law

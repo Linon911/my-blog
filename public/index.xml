@@ -15,5 +15,33 @@
       <guid>http://localhost:1313/notes/trips-plus-standards/</guid>
       <description>A brief note on how TRIPS-plus provisions in PTAs differ from the baseline WTO framework, and why it matters for technology transfer.</description>
     </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/research/international-trade/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/research/international-trade/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/research/ip-protection/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/research/ip-protection/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/research/law-economics/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/research/law-economics/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/research/technology-transfer/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/research/technology-transfer/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>

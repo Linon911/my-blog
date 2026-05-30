@@ -1,13 +1,10 @@
-{{- define "main" }}
+﻿{{- define "main" }}
 <div class="home-container">
 
-  <!-- ═══════════════════════════════════════════
-       HERO
-  ═══════════════════════════════════════════ -->
   <section class="hero">
     <div class="hero-eyebrow">
       <span class="eyebrow-dot"></span>
-      Ph.D. Researcher · Law &amp; Economics
+      Ph.D. Researcher &middot; Law &amp; Economics
     </div>
 
     <div class="hero-body">
@@ -19,13 +16,13 @@
         </p>
         <div class="hero-meta">
           <span>International Trade</span>
-          <span class="sep">·</span>
+          <span class="sep">&middot;</span>
           <span>Technology Transfer</span>
-          <span class="sep">·</span>
+          <span class="sep">&middot;</span>
           <span>IP Protection</span>
         </div>
         <div class="hero-actions">
-          <a href="/research/" class="btn-primary">View Research →</a>
+          <a href="/research/" class="btn-primary">View Research &rarr;</a>
           <a href="/publications/" class="btn-ghost">Publications</a>
           <a href="/about/" class="btn-ghost">CV &amp; Contact</a>
         </div>
@@ -65,73 +62,62 @@
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════
-       RESEARCH STREAMS
-  ═══════════════════════════════════════════ -->
   <section class="section research-section">
     <div class="section-header">
       <span class="section-label">Research Streams</span>
-      <a href="/research/" class="section-link">All research →</a>
+      <a href="/research/" class="section-link">All research &rarr;</a>
     </div>
-
     <div class="research-grid">
       <div class="research-card featured">
         <div class="card-index">01</div>
         <h3>Technology Transfer &amp; Diffusion</h3>
         <p>How IP regimes mediate the movement of technology across borders, and the welfare implications for recipient economies.</p>
-        <a href="/research/" class="card-link">Explore →</a>
+        <a href="/research/" class="card-link">Explore &rarr;</a>
       </div>
       <div class="research-card">
         <div class="card-index">02</div>
         <h3>International Trade Law</h3>
         <p>Analysing WTO dispute settlement patterns and the interplay between trade agreements and domestic regulatory capacity.</p>
-        <a href="/research/" class="card-link">Explore →</a>
+        <a href="/research/" class="card-link">Explore &rarr;</a>
       </div>
       <div class="research-card">
         <div class="card-index">03</div>
         <h3>Law &amp; Economics</h3>
-        <p>Applying economic reasoning to legal institutions — incentive design, enforcement, and institutional efficiency.</p>
-        <a href="/research/" class="card-link">Explore →</a>
+        <p>Applying economic reasoning to legal institutions &mdash; incentive design, enforcement, and institutional efficiency.</p>
+        <a href="/research/" class="card-link">Explore &rarr;</a>
       </div>
       <div class="research-card">
         <div class="card-index">04</div>
         <h3>Innovation Policy</h3>
         <p>Comparative analysis of national innovation systems and their relationship to long-run economic development.</p>
-        <a href="/research/" class="card-link">Explore →</a>
+        <a href="/research/" class="card-link">Explore &rarr;</a>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════
-       RECENT WRITING
-  ═══════════════════════════════════════════ -->
   <section class="section writing-section">
     <div class="section-header">
       <span class="section-label">Recent Writing</span>
-      <a href="/notes/" class="section-link">All notes →</a>
+      <a href="/notes/" class="section-link">All notes &rarr;</a>
     </div>
-
     <div class="writing-list">
       {{- $pages := where .Site.RegularPages "Section" "notes" }}
       {{- range first 4 $pages }}
       <a class="writing-row" href="{{ .Permalink }}">
         <span class="writing-date">{{ .Date.Format "Jan 2006" }}</span>
         <span class="writing-title">{{ .Title }}</span>
-        <span class="writing-arrow">→</span>
+        <span class="writing-arrow">&rarr;</span>
       </a>
       {{- else }}
       <a class="writing-row" href="/notes/">
         <span class="writing-date">2026</span>
-        <span class="writing-title">Notes coming soon — check back shortly.</span>
-        <span class="writing-arrow">→</span>
+        <span class="writing-title">Notes coming soon &mdash; check back shortly.</span>
+        <span class="writing-arrow">&rarr;</span>
       </a>
       {{- end }}
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════
-       NOW
-  ═══════════════════════════════════════════ -->
   <section class="section now-section">
     <div class="now-card">
       <div class="now-left">
@@ -140,7 +126,7 @@
           Writing Chapter 2 of my dissertation on TRIPS-plus provisions in bilateral trade agreements.
           Reading <em>The Origins of Virtue</em> by Matt Ridley and <em>Law's Empire</em> by Dworkin.
         </p>
-        <div class="now-updated">Last updated · May 2026</div>
+        <div class="now-updated">Last updated &middot; May 2026</div>
       </div>
       <div class="now-right">
         <div class="now-item">
@@ -149,7 +135,7 @@
         </div>
         <div class="now-item">
           <div class="now-item-label">Reading</div>
-          <div class="now-item-val">Ridley · Dworkin</div>
+          <div class="now-item-val">Ridley &middot; Dworkin</div>
         </div>
         <div class="now-item">
           <div class="now-item-label">Location</div>
