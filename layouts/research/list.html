@@ -1,0 +1,35 @@
+{{ define "main" }}
+
+<h1>{{ .Title }}</h1>
+
+<p>{{ .Content }}</p>
+
+<div class="research-grid">
+
+  {{ range .Pages.ByWeight }}
+
+  <div class="research-card">
+
+    <h3>{{ .Title }}</h3>
+
+    <p class="desc">{{ .Params.description }}</p>
+
+    <p class="keywords">
+      {{ range .Params.keywords }}
+        <span class="tag">{{ . }}</span>
+      {{ end }}
+    </p>
+
+    <p class="status">
+      Status: {{ .Params.status }}
+    </p>
+
+    <a href="{{ .RelPermalink }}">→ Explore</a>
+
+  </div>
+
+  {{ end }}
+
+</div>
+
+{{ end }}

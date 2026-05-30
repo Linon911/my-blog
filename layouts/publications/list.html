@@ -1,0 +1,101 @@
+{{ define "main" }}
+
+<h1>{{ .Title }}</h1>
+
+<input id="search" placeholder="Search...">
+
+<div style="margin-bottom:10px;">
+  <button onclick="filterAll()">All</button>
+  <button onclick="filter('working-paper')">Working</button>
+  <button onclick="filter('project')">Project</button>
+  <button onclick="filter('conference')">Conference</button>
+</div>
+
+<div id="grid" class="pub-grid"></div>
+
+<!-- ⚠️ 关键：数据库必须先加载 -->
+{{ partial "scholar-db.html" . }}
+
+<!-- ⚠️ 你的 JS 必须放在这里 -->
+<script>
+
+let DB = window.SCHOLAR_DB;
+
+/* SIMPLE SEMANTIC MAP */
+const semanticMap = {
+  "ip": ["intellectual", "property", "law"],
+  "trade": ["international", "economics", "export"],
+  "innovation": ["technology", "change", "growth"],
+  "law": ["legal", "institution"],
+  "technology": ["tech", "transfer", "diffusion"]
+};
+
+/* EXPAND QUERY */
+function expandQuery(q){
+  let words = q.toLowerCase().split(" ");
+  let expanded = [...words];
+
+  words.forEach(w=>{
+    if(semanticMap[w]){
+      expanded = expanded.concat(semanticMap[w]);
+    }
+  });
+
+  return expanded;
+}
+
+/* SEARCH */
+function search(q){
+  let terms = expandQuery(q);
+
+  return DB.filter(p=>{
+    let text = (
+      p.title + " " +
+      p.area + " " +
+      p.description + " " +
+      (p.keywords || []).join(" ")
+    ).toLowerCase();
+
+    return terms.some(t => text.includes(t));
+  });
+}
+
+/* RENDER */
+function render(list){
+  let g = document.getElementById("grid");
+  if(!g) return;
+
+  g.innerHTML = "";
+
+  list.forEach(p=>{
+    g.innerHTML += `
+      <div class="pub-card">
+        <h3><a href="${p.url}">${p.title}</a></h3>
+        <div class="meta">${p.year} · ${p.area}</div>
+        <div class="desc">${p.summary || p.description || ""}</div>
+      </div>
+    `;
+  });
+}
+
+/* INIT */
+render(DB);
+
+/* SEARCH INPUT */
+document.getElementById("search").addEventListener("input", e=>{
+  let res = search(e.target.value);
+  render(res);
+});
+
+/* FILTER */
+function filter(type){
+  render(DB.filter(p=>p.type===type));
+}
+
+function filterAll(){
+  render(DB);
+}
+
+</script>
+
+{{ end }}

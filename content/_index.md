@@ -1,51 +1,32 @@
+﻿---
+title: "Home"
 ---
-
-## title: ""
 
 # Povaka
 
-### International Trade · Intellectual Property · Law & Economics
+International Trade × Intellectual Property × Law & Economics
 
-I am an undergraduate student pursuing a dual degree in International Economics and Trade and Law. My research interests focus on technology transfer, intellectual property protection, innovation incentives, and the interaction between legal institutions and economic development.
-
-This website serves as a platform to document my academic journey, research projects, reading notes, and technical explorations.
-
----
+Welcome to my academic website.
 
 ## Research Interests
 
-* Technology Transfer
-* Intellectual Property Protection
-* International Trade
-* Law & Economics
-* Empirical Research Methods
-
----
+- Technology Transfer
+- Intellectual Property Protection
+- International Trade
+- Law & Economics
 
 ## Current Research
 
-### Technology Transfer under Different Intellectual Property Protection Regimes
+Technology Transfer under Different Intellectual Property Protection Regimes
 
-Exploring how intellectual property institutions influence innovation incentives, technology diffusion, and international economic cooperation.
-
-Status: Ongoing Research
+Working Paper
 
 Expected Completion: 2026
 
----
+## Contact
 
-## Recent Updates
+GitHub:
+https://github.com/Linon911
 
-* Building an academic knowledge management system
-* Researching technology transfer and judicial protection
-* Developing a Hugo-based scholar website
-
----
-
-## Quick Links
-
-* Research
-* Publications
-* Reading Database
-* Academic Notes
-* Curriculum Vitae
+Email:
+even86400@gmail.com

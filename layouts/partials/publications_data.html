@@ -1,0 +1,22 @@
+<script>
+window.PUB_DB = [
+{{ $pages := where site.RegularPages "Section" "publications" }}
+{{ $len := len $pages }}
+
+{{ range $i, $p := $pages }}
+
+{
+  title: {{ $p.Title | jsonify }},
+  url: {{ $p.RelPermalink | jsonify }},
+  type: {{ $p.Params.type | default "unknown" | jsonify }},
+  year: {{ $p.Params.year | default 0 }},
+  area: {{ $p.Params.area | default "Other" | jsonify }},
+  status: {{ $p.Params.status | default "draft" | jsonify }},
+  description: {{ $p.Params.description | default "" | jsonify }}
+}
+
+{{ if lt (add $i 1) $len }},{{ end }}
+
+{{ end }}
+];
+</script>

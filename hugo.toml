@@ -1,5 +1,5 @@
 baseURL = "https://www.povaka.com/"
-languageCode = "en-us"
+defaultContentLanguage = "en"
 title = "Povaka"
 theme = "PaperMod"
 
@@ -9,24 +9,107 @@ buildFuture = false
 buildExpired = false
 
 [pagination]
-pagerSize = 8
+pagerSize = 10
+
+############################
+
+# Academic Site Metadata
+
+############################
 
 [params]
+
+author = "Povaka"
+
+description = "Research on Technology Transfer, Intellectual Property Protection, International Trade and Law & Economics."
+
+keywords = [
+"Technology Transfer",
+"Intellectual Property",
+"International Trade",
+"Law and Economics",
+"Innovation",
+"Research"
+]
+
 defaultTheme = "light"
+
 disableSpecial1stPost = true
-ShowBreadCrumbs = false
-ShowPostNavLinks = false
+
+ShowBreadCrumbs = true
+ShowPostNavLinks = true
 ShowCodeCopyButtons = true
 ShowReadingTime = true
+ShowWordCount = true
 ShowShareButtons = false
+
 ShowToc = true
 TocOpen = false
+
 math = true
 
-[params.profileMode]
-enabled = false
+ShowSearchPage = true
 
-[menu]
+############################
+
+# Homepage
+
+############################
+
+[params.homeInfoParams]
+
+Title = "Povaka"
+
+Content = """
+Researcher in International Trade, Intellectual Property and Law & Economics.
+
+This website documents my research projects, academic writing, reading database and technical explorations.
+
+Research Interests:
+
+• Technology Transfer
+
+• Intellectual Property Protection
+
+• International Trade
+
+• Law & Economics
+
+• Innovation Policy
+"""
+
+############################
+
+# Social Links
+
+############################
+
+[[params.socialIcons]]
+name = "github"
+url = "https://github.com/Linon911"
+
+[[params.socialIcons]]
+name = "email"
+url = "mailto:even86400@gmail.com"
+
+############################
+
+# Assets
+
+############################
+
+[params.assets]
+
+disableFingerprinting = true
+
+favicon = "/favicon.ico"
+
+############################
+
+# Navigation
+
+############################
+
 [[menu.main]]
 name = "Research"
 url = "/research/"
@@ -38,24 +121,70 @@ url = "/publications/"
 weight = 20
 
 [[menu.main]]
+name = "Reading"
+url = "/reading/"
+weight = 30
+
+[[menu.main]]
 name = "Notes"
 url = "/notes/"
-weight = 30
+weight = 40
 
 [[menu.main]]
 name = "Tech"
 url = "/tech/"
-weight = 40
+weight = 50
 
 [[menu.main]]
-name = "Reading"
-url = "/reading/"
-weight = 50
+name = "CV"
+url = "/cv/"
+weight = 60
+
+[[menu.main]]
+name = "Timeline"
+url = "/timeline/"
+weight = 70
 
 [[menu.main]]
 name = "About"
 url = "/about/"
-weight = 60
+weight = 80
+
+[[menu.main]]
+name = "Search"
+url = "/search/"
+weight = 90
+
+############################
+
+# Outputs
+
+############################
 
 [outputs]
+
 home = ["HTML", "RSS", "JSON"]
+
+############################
+
+# Syntax Highlight
+
+############################
+
+[markup]
+
+[markup.highlight]
+style = "github"
+lineNos = false
+codeFences = true
+
+############################
+
+# Goldmark
+
+############################
+
+[markup.goldmark.renderer]
+unsafe = true
+
+
