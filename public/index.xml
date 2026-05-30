@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Povaka的求索之路</title>
+    <title>Home on Povaka</title>
     <link>http://localhost:1313/</link>
-    <description>Recent content on Povaka的求索之路</description>
+    <description>Recent content in Home on Povaka</description>
     <generator>Hugo</generator>
-    <language>zh-cn</language>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 20 May 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>On TRIPS-Plus Standards: What Bilateral Agreements Actually Do</title>
+      <link>http://localhost:1313/notes/trips-plus-standards/</link>
+      <pubDate>Wed, 20 May 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/notes/trips-plus-standards/</guid>
+      <description>A brief note on how TRIPS-plus provisions in PTAs differ from the baseline WTO framework, and why it matters for technology transfer.</description>
+    </item>
   </channel>
 </rss>

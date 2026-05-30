@@ -1,43 +1,61 @@
-baseURL = "https://yourname.com/"
-languageCode = "zh-cn"
-title = "Povaka的求索之路"
+baseURL = "https://www.povaka.com/"
+languageCode = "en-us"
+title = "Povaka"
 theme = "PaperMod"
-pagination.pagerSize = 10
+
+enableRobotsTXT = true
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+
+[pagination]
+pagerSize = 8
 
 [params]
-  author = "Povaka"
-  description = "学术写作 · 技术分享 · 生活随笔"
-  ShowReadingTime = true
-  ShowPostNavLinks = true
-  ShowCodeCopyButtons = true
-  math = true
+defaultTheme = "light"
+disableSpecial1stPost = true
+ShowBreadCrumbs = false
+ShowPostNavLinks = false
+ShowCodeCopyButtons = true
+ShowReadingTime = true
+ShowShareButtons = false
+ShowToc = true
+TocOpen = false
+math = true
 
-[params.homeInfoParams]
-  Title = "Hello，我是 Povaka"
-  Content = "研究方向 XX，这里记录学术思考与技术探索"
-
-[[params.socialIcons]]
-  name = "github"
-  url = "https://github.com/Linon911"
-
-[[params.socialIcons]]
-  name = "email"
-  url = "mailto:even86400@gmail.com"
+[params.profileMode]
+enabled = false
 
 [menu]
-  [[menu.main]]
-    name = "学术写作"
-    url = "/academic/"
-    weight = 1
-  [[menu.main]]
-    name = "技术分享"
-    url = "/tech/"
-    weight = 2
-  [[menu.main]]
-    name = "生活随笔"
-    url = "/life/"
-    weight = 3
-  [[menu.main]]
-    name = "关于我"
-    url = "/about/"
-    weight = 4
+[[menu.main]]
+name = "Research"
+url = "/research/"
+weight = 10
+
+[[menu.main]]
+name = "Publications"
+url = "/publications/"
+weight = 20
+
+[[menu.main]]
+name = "Notes"
+url = "/notes/"
+weight = 30
+
+[[menu.main]]
+name = "Tech"
+url = "/tech/"
+weight = 40
+
+[[menu.main]]
+name = "Reading"
+url = "/reading/"
+weight = 50
+
+[[menu.main]]
+name = "About"
+url = "/about/"
+weight = 60
+
+[outputs]
+home = ["HTML", "RSS", "JSON"]
