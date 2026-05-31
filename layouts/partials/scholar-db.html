@@ -2,7 +2,6 @@
 window.PUB_DB = [
 {{ $pages := where site.RegularPages "Section" "publications" }}
 {{ $len := len $pages }}
-
 {{ range $i, $p := $pages }}
 {
   id: {{ $p.File.TranslationBaseName | jsonify }},
@@ -13,7 +12,11 @@ window.PUB_DB = [
   area: {{ $p.Params.area | default "" | jsonify }},
   keywords: {{ $p.Params.keywords | default (slice) | jsonify }},
   related: {{ $p.Params.related | default (slice) | jsonify }},
-  status: {{ $p.Params.status | default "" | jsonify }}
+  status: {{ $p.Params.status | default "" | jsonify }},
+  summary: {{ $p.Params.summary | default "" | jsonify }},
+  description: {{ $p.Params.description | default "" | jsonify }},
+  pdf: {{ $p.Params.pdf | default "" | jsonify }},
+  authors: {{ $p.Params.authors | default (slice) | jsonify }}
 }
 {{ if lt (add $i 1) $len }},{{ end }}
 {{ end }}
