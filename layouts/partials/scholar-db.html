@@ -1,25 +1,21 @@
 <script>
-window.SCHOLAR_DB = [
+window.PUB_DB = [
 {{ $pages := where site.RegularPages "Section" "publications" }}
 {{ $len := len $pages }}
 
 {{ range $i, $p := $pages }}
-
 {
   id: {{ $p.File.TranslationBaseName | jsonify }},
   title: {{ $p.Title | jsonify }},
   url: {{ $p.RelPermalink | jsonify }},
-  type: {{ $p.Params.type | default "unknown" | jsonify }},
+  type: {{ $p.Params.type | default "" | jsonify }},
   year: {{ $p.Params.year | default 0 }},
-  area: {{ $p.Params.area | default "Other" | jsonify }},
-  status: {{ $p.Params.status | default "draft" | jsonify }},
-  authors: {{ $p.Params.authors | default "" | jsonify }},
-  description: {{ $p.Params.description | default "" | jsonify }},
+  area: {{ $p.Params.area | default "" | jsonify }},
   keywords: {{ $p.Params.keywords | default (slice) | jsonify }},
-  summary: {{ $p.Params.summary | default "" | jsonify }}
+  related: {{ $p.Params.related | default (slice) | jsonify }},
+  status: {{ $p.Params.status | default "" | jsonify }}
 }
 {{ if lt (add $i 1) $len }},{{ end }}
-
 {{ end }}
 ];
 </script>

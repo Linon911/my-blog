@@ -2,99 +2,233 @@
 
 <h1>{{ .Title }}</h1>
 
-<input id="search" placeholder="Search...">
+<div class="pub-toolbar">
 
-<div style="margin-bottom:10px;">
-  <button onclick="filterAll()">All</button>
-  <button onclick="filter('working-paper')">Working</button>
-  <button onclick="filter('project')">Project</button>
-  <button onclick="filter('conference')">Conference</button>
+  <input
+    id="search"
+    type="text"
+    placeholder="Search publications..."
+  >
+
+  <div class="pub-filters">
+    <button onclick="filterType('all')">All</button>
+    <button onclick="filterType('working-paper')">Working Papers</button>
+    <button onclick="filterType('project')">Projects</button>
+    <button onclick="filterType('conference')">Conference Papers</button>
+  </div>
+
 </div>
+
+<div id="result-count"></div>
 
 <div id="grid" class="pub-grid"></div>
 
-<!-- ⚠️ 关键：数据库必须先加载 -->
 {{ partial "scholar-db.html" . }}
 
-<!-- ⚠️ 你的 JS 必须放在这里 -->
 <script>
 
-let DB = window.SCHOLAR_DB;
+const DB = window.PUB_DB || [];
 
-/* SIMPLE SEMANTIC MAP */
+let currentType = "all";
+let currentQuery = "";
+
+/* -------------------- */
+/* Semantic Dictionary  */
+/* -------------------- */
+
 const semanticMap = {
-  "ip": ["intellectual", "property", "law"],
-  "trade": ["international", "economics", "export"],
-  "innovation": ["technology", "change", "growth"],
-  "law": ["legal", "institution"],
-  "technology": ["tech", "transfer", "diffusion"]
+
+  ip: [
+    "intellectual property",
+    "patent",
+    "copyright",
+    "law"
+  ],
+
+  trade: [
+    "international trade",
+    "export",
+    "import",
+    "economics"
+  ],
+
+  innovation: [
+    "technology",
+    "growth",
+    "research"
+  ],
+
+  technology: [
+    "tech",
+    "transfer",
+    "diffusion"
+  ]
 };
 
-/* EXPAND QUERY */
-function expandQuery(q){
-  let words = q.toLowerCase().split(" ");
+/* -------------------- */
+/* Expand Search Terms  */
+/* -------------------- */
+
+function expandQuery(query){
+
+  if(!query) return [];
+
+  let words = query.toLowerCase().split(/\s+/);
+
   let expanded = [...words];
 
-  words.forEach(w=>{
-    if(semanticMap[w]){
-      expanded = expanded.concat(semanticMap[w]);
+  words.forEach(word => {
+
+    if(semanticMap[word]) {
+      expanded.push(...semanticMap[word]);
     }
+
   });
 
-  return expanded;
+  return [...new Set(expanded)];
 }
 
-/* SEARCH */
-function search(q){
-  let terms = expandQuery(q);
+/* -------------------- */
+/* Combined Filtering   */
+/* -------------------- */
 
-  return DB.filter(p=>{
-    let text = (
-      p.title + " " +
-      p.area + " " +
-      p.description + " " +
-      (p.keywords || []).join(" ")
-    ).toLowerCase();
+function getFilteredData(){
 
-    return terms.some(t => text.includes(t));
-  });
+  let data = [...DB];
+
+  if(currentType !== "all"){
+
+    data = data.filter(
+      p => p.type === currentType
+    );
+
+  }
+
+  if(currentQuery){
+
+    let terms = expandQuery(currentQuery);
+
+    data = data.filter(p => {
+
+      let text = (
+
+        (p.title || "") + " " +
+        (p.area || "") + " " +
+        (p.description || "") + " " +
+        (p.summary || "") + " " +
+        (p.status || "") + " " +
+        (p.type || "") + " " +
+        (p.keywords || []).join(" ")
+
+      ).toLowerCase();
+
+      return terms.some(
+        term => text.includes(term)
+      );
+
+    });
+
+  }
+
+  return data;
 }
 
-/* RENDER */
-function render(list){
-  let g = document.getElementById("grid");
-  if(!g) return;
+/* -------------------- */
+/* Render Cards         */
+/* -------------------- */
 
-  g.innerHTML = "";
+function render(){
 
-  list.forEach(p=>{
-    g.innerHTML += `
-      <div class="pub-card">
-        <h3><a href="${p.url}">${p.title}</a></h3>
-        <div class="meta">${p.year} · ${p.area}</div>
-        <div class="desc">${p.summary || p.description || ""}</div>
+  const grid =
+    document.getElementById("grid");
+
+  const counter =
+    document.getElementById("result-count");
+
+  const data =
+    getFilteredData();
+
+  counter.innerHTML =
+    `<p>${data.length} record(s)</p>`;
+
+  if(data.length === 0){
+
+    grid.innerHTML = `
+      <div class="pub-empty">
+        No publications found.
       </div>
     `;
-  });
+
+    return;
+  }
+
+  grid.innerHTML = data.map(p => `
+
+    <article class="pub-card">
+
+      <div class="pub-type">
+        ${p.type || ""}
+      </div>
+
+      <h3>
+        <a href="${p.url}">
+          ${p.title}
+        </a>
+      </h3>
+
+      <div class="pub-meta">
+
+        ${p.year || ""}
+
+        ${p.area ? " · " + p.area : ""}
+
+      </div>
+
+      <div class="pub-status">
+        ${p.status || ""}
+      </div>
+
+      <p class="pub-desc">
+        ${p.summary || p.description || ""}
+      </p>
+
+    </article>
+
+  `).join("");
+
 }
 
-/* INIT */
-render(DB);
+/* -------------------- */
+/* Search               */
+/* -------------------- */
 
-/* SEARCH INPUT */
-document.getElementById("search").addEventListener("input", e=>{
-  let res = search(e.target.value);
-  render(res);
+document
+.getElementById("search")
+.addEventListener("input", e => {
+
+  currentQuery = e.target.value.trim();
+
+  render();
+
 });
 
-/* FILTER */
-function filter(type){
-  render(DB.filter(p=>p.type===type));
+/* -------------------- */
+/* Filter               */
+/* -------------------- */
+
+function filterType(type){
+
+  currentType = type;
+
+  render();
+
 }
 
-function filterAll(){
-  render(DB);
-}
+/* -------------------- */
+/* Init                 */
+/* -------------------- */
+
+render();
 
 </script>
 
