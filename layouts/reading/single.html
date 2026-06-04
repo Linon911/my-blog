@@ -1,0 +1,89 @@
+{{- define "main" }}
+{{- $p := .Params }}
+
+<div class="rs-root pv-page">
+  <div class="pv-container">
+
+    <nav class="rs-breadcrumb">
+      <a href="/reading/">Reading Database</a>
+      <span>›</span>
+      <span>{{ $p.field | default "Entry" }}</span>
+    </nav>
+
+    <div class="rs-layout">
+
+      <main class="rs-main">
+        <div class="rs-header">
+          <div class="rs-cover">
+            {{ if $p.author }}{{ substr ($p.author | upper) 0 1 }}{{ else }}?{{ end }}
+          </div>
+          <div class="rs-header-body">
+            <p class="rs-author">{{ $p.author | default "Unknown Author" }}</p>
+            <h1 class="rs-title">{{ .Title }}</h1>
+            <div class="rs-meta">
+              {{- with $p.year }}<span class="rs-meta-item">{{ . }}</span>{{- end }}
+              {{- with $p.readingType }}<span class="rs-meta-sep">·</span><span class="rs-meta-item">{{ . }}</span>{{- end }}
+              {{- with $p.field }}<span class="rs-meta-sep">·</span><span class="rs-meta-item">{{ . }}</span>{{- end }}
+            </div>
+            <div class="rs-keywords">
+              {{- range $p.keywords }}<span class="pv-tag">{{ . }}</span>{{- end }}
+            </div>
+          </div>
+        </div>
+
+        {{- with $p.myNote }}
+        <div class="rs-section">
+          <h2 class="rs-section-title">My Notes</h2>
+          <div class="rs-note-body">{{ . }}</div>
+        </div>
+        {{- end }}
+
+        {{- with .Content }}
+        <div class="rs-section">
+          <div class="rs-content">{{ . }}</div>
+        </div>
+        {{- end }}
+
+        {{- with $p.keyArguments }}
+        <div class="rs-section">
+          <h2 class="rs-section-title">Key Arguments</h2>
+          <ul class="rs-arg-list">
+            {{- range . }}<li>{{ . }}</li>{{- end }}
+          </ul>
+        </div>
+        {{- end }}
+
+        {{- with $p.relevance }}
+        <div class="rs-section">
+          <h2 class="rs-section-title">Relevance to My Research</h2>
+          <p class="rs-relevance">{{ . }}</p>
+        </div>
+        {{- end }}
+      </main>
+
+      <aside class="rs-sidebar">
+        <div class="rs-sidebar-card">
+          <h3 class="rs-sidebar-title">Entry Details</h3>
+          <div class="rs-details">
+            {{- with $p.author }}<div class="rs-detail-row"><span class="rs-detail-label">Author</span><span class="rs-detail-val">{{ . }}</span></div>{{- end }}
+            {{- with $p.year }}<div class="rs-detail-row"><span class="rs-detail-label">Year</span><span class="rs-detail-val">{{ . }}</span></div>{{- end }}
+            {{- with $p.readingType }}<div class="rs-detail-row"><span class="rs-detail-label">Type</span><span class="rs-detail-val">{{ . }}</span></div>{{- end }}
+            {{- with $p.field }}<div class="rs-detail-row"><span class="rs-detail-label">Field</span><span class="rs-detail-val">{{ . }}</span></div>{{- end }}
+            {{- with $p.importance }}<div class="rs-detail-row"><span class="rs-detail-label">Importance</span><span class="rs-detail-val">{{ . }}</span></div>{{- end }}
+          </div>
+        </div>
+        {{- with $p.relatedPublications }}
+        <div class="rs-sidebar-card">
+          <h3 class="rs-sidebar-title">Related Work</h3>
+          <div class="rs-related">
+            {{- range . }}<a href="{{ .url | relURL }}" class="rs-related-item">{{ .title }}</a>{{- end }}
+          </div>
+        </div>
+        {{- end }}
+      </aside>
+
+    </div>
+  </div>
+</div>
+
+{{- end }}

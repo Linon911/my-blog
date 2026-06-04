@@ -1,4 +1,3 @@
 ---
-title: "Conference Papers"
-weight: 3
+title: "Conference"
 ---

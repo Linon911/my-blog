@@ -1,64 +1,20 @@
 ---
 title: "International Trade"
-date: 2025-01-01
+area: "International Economics"
+summary: "The role of institutional quality — particularly IP protection — as a determinant of bilateral trade patterns, using gravity models with legal and institutional variables."
+weight: 3
 ---
 
-# International Trade
+## Overview
 
-## Research Overview
+My trade research focuses on how legal and institutional variables shape bilateral trade flows beyond standard gravity determinants.
 
-International trade facilitates economic growth, technological progress, and industrial transformation.
+## Methods
 
-My research interests focus on the interaction between trade, innovation, and institutional environments.
+- Gravity models (PPML, Silva & Tenreyro 2006)
+- Panel data with high-dimensional fixed effects (`fixest` in R)
+- Quasi-natural experiments exploiting TRIPS implementation timing
 
----
+## Data
 
-## Core Questions
-
-- How does trade affect technological upgrading?
-
-- What role do institutions play in trade performance?
-
-- How does innovation influence comparative advantage?
-
-- How do global value chains facilitate technology diffusion?
-
----
-
-## Research Topics
-
-### Trade and Innovation
-
-Studying the relationship between openness and innovation.
-
-### Global Value Chains
-
-Analyzing production fragmentation and knowledge spillovers.
-
-### Trade Structure
-
-Investigating industrial upgrading and competitiveness.
-
----
-
-## Current Interests
-
-- Technology-intensive Trade
-- Trade and Innovation
-- Industrial Upgrading
-
----
-
-## Selected Reading
-
-- Grossman & Helpman (1991)
-- Melitz (2003)
-- Baldwin (2016)
-
----
-
-## Future Directions
-
-- Digital Trade
-- Innovation-driven Trade
-- Technology Transfer through Trade
+UN Comtrade · CEPII gravity dataset · Park (2008) IP index

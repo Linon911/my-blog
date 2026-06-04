@@ -1,35 +1,114 @@
-{{ define "main" }}
+{{- define "main" }}
+{{- $p := .Params }}
 
-<h1>{{ .Title }}</h1>
+<div class="rp-root pv-page">
+  <div class="pv-container">
 
-<p>{{ .Content }}</p>
+    {{/* ── 页头 ── */}}
+    <div class="pv-page-header">
+      <p class="t-eyebrow">{{ $p.eyebrow | default "Research Agenda" }}</p>
+      <h1 class="t-title" style="margin: var(--s2) 0 var(--s2);">{{ .Title }}</h1>
+      <p class="t-lead">{{ $p.description | default .Description }}</p>
+    </div>
 
-<div class="research-grid">
+    {{/* ── 子导航 tabs ── */}}
+    <div class="rp-tabs">
+      <button class="rp-tab rp-tab--active" data-panel="areas">Research Areas</button>
+      <button class="rp-tab" data-panel="methods">Methods</button>
+      <button class="rp-tab" data-panel="projects">Projects</button>
+    </div>
 
-  {{ range .Pages.ByWeight }}
+    {{/* ── PANEL: Research Areas ── */}}
+    <div class="rp-panel" id="rp-panel-areas">
+      <div class="rp-areas-grid">
+        {{- range .Pages }}
+        <article class="rp-card">
+          <div class="rp-card-top">
+            <span class="rp-card-eyebrow">{{ .Params.researchArea | default "Research" }}</span>
+            {{- with .Params.status }}
+            <span class="pv-badge pv-badge--{{ . | lower | replaceRE " " "-" }}">{{ . }}</span>
+            {{- end }}
+          </div>
+          <h2 class="rp-card-title">
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          </h2>
+          {{- with .Params.subtitle }}
+          <p class="rp-card-subtitle">{{ . }}</p>
+          {{- end }}
+          <p class="rp-card-excerpt">{{ .Summary | truncate 150 }}</p>
+          <div class="rp-card-footer">
+            <div class="rp-card-tags">
+              {{- $tags := .Params.tags }}
+              {{- if $tags }}
+                {{- range first 3 $tags }}
+                <span class="pv-tag">{{ . }}</span>
+                {{- end }}
+              {{- end }}
+            </div>
+            <a href="{{ .RelPermalink }}" class="rp-card-link">Explore →</a>
+          </div>
+        </article>
+        {{- end }}
+      </div>
+    </div>
 
-  <div class="research-card">
+    {{/* ── PANEL: Methods ── */}}
+    <div class="rp-panel" id="rp-panel-methods" style="display:none">
+      <div class="rp-methods-grid">
+        {{- range $p.methods }}
+        <div class="rp-method-card">
+          <div class="rp-method-icon">{{ .icon | default "◆" }}</div>
+          <h3 class="rp-method-name">{{ .name }}</h3>
+          <p class="rp-method-desc">{{ .description }}</p>
+          {{- with .tools }}
+          <div class="rp-method-tools">
+            {{- range . }}<span class="pv-tag">{{ . }}</span>{{- end }}
+          </div>
+          {{- end }}
+        </div>
+        {{- end }}
+      </div>
+    </div>
 
-    <h3>{{ .Title }}</h3>
-
-    <p class="desc">{{ .Params.description }}</p>
-
-    <p class="keywords">
-      {{ range .Params.keywords }}
-        <span class="tag">{{ . }}</span>
-      {{ end }}
-    </p>
-
-    <p class="status">
-      Status: {{ .Params.status }}
-    </p>
-
-    <a href="{{ .RelPermalink }}">→ Explore</a>
+    {{/* ── PANEL: Projects ── */}}
+    <div class="rp-panel" id="rp-panel-projects" style="display:none">
+      <div class="rp-projects-list">
+        {{- range $p.currentProjects }}
+        <div class="rp-project-item">
+          <div class="rp-project-meta">
+            <span class="pv-pulse"></span>
+            <span class="rp-project-status">{{ .status }}</span>
+            <span class="rp-project-area">{{ .area }}</span>
+          </div>
+          <h3 class="rp-project-title">{{ .title }}</h3>
+          <p class="rp-project-desc">{{ .description }}</p>
+          <div class="rp-project-footer">
+            <span class="pv-badge pv-badge--neutral">{{ .type }}</span>
+            <span class="rp-project-eta">Expected {{ .expected }}</span>
+          </div>
+        </div>
+        {{- end }}
+      </div>
+    </div>
 
   </div>
-
-  {{ end }}
-
 </div>
 
-{{ end }}
+<script>
+(function(){
+  var tabs   = document.querySelectorAll('.rp-tab');
+  var panels = document.querySelectorAll('.rp-panel');
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      tabs.forEach(function(t) { t.classList.remove('rp-tab--active'); });
+      tab.classList.add('rp-tab--active');
+      var target = 'rp-panel-' + tab.dataset.panel;
+      panels.forEach(function(p) {
+        p.style.display = p.id === target ? '' : 'none';
+      });
+    });
+  });
+})();
+</script>
+
+{{- end }}

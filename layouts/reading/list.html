@@ -1,0 +1,132 @@
+{{- define "main" }}
+{{- $p := .Params }}
+
+<div class="rd-root pv-page">
+  <div class="pv-container">
+
+    {{/* ── 页头 ── */}}
+    <div class="pv-page-header">
+      <p class="t-eyebrow">Bibliography</p>
+      <h1 class="t-title" style="margin: var(--s2) 0 var(--s2);">Reading Database</h1>
+      <p class="t-lead">A curated collection of books and papers that shape my research.</p>
+    </div>
+
+    {{/* ── 工具栏 ── */}}
+    <div class="rd-toolbar">
+      <div class="rd-tabs">
+        <button class="rd-tab rd-tab--active" data-filter="all">All</button>
+        <button class="rd-tab" data-filter="book">Books</button>
+        <button class="rd-tab" data-filter="paper">Papers</button>
+        <button class="rd-tab" data-filter="chapter">Chapters</button>
+      </div>
+      <div class="rd-search-wrap">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="rd-search-icon">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input type="text" class="rd-search-input" id="rd-search" placeholder="Search by title, author, keyword…" autocomplete="off">
+      </div>
+    </div>
+
+    {{/* ── 主体双列：列表 + 影响图 ── */}}
+    <div class="rd-body">
+
+      {{/* 左：条目列表 */}}
+      <div class="rd-list-col">
+        <div class="rd-list" id="rd-list">
+          {{- $readings := where .Site.RegularPages "Section" "reading" }}
+          {{- range $readings }}
+          {{- $type := .Params.readingType | default "paper" | lower }}
+          <article class="rd-entry"
+            data-type="{{ $type }}"
+            data-title="{{ .Title | lower }}"
+            data-author="{{ .Params.author | lower }}"
+            data-keywords="{{ range .Params.keywords }}{{ . | lower }} {{ end }}">
+
+            <div class="rd-entry-cover">
+              {{ if .Params.author }}{{ substr (.Params.author | upper) 0 1 }}{{ else }}?{{ end }}
+            </div>
+
+            <div class="rd-entry-body">
+              <div class="rd-entry-meta">
+                <span class="rd-entry-author">{{ .Params.author | default "Unknown" }}</span>
+                <span class="rd-entry-year">{{ .Params.year | default (.Date.Year | string) }}</span>
+                <span class="pv-badge pv-badge--neutral rd-entry-type">{{ .Params.readingType | default "Paper" }}</span>
+              </div>
+              <h3 class="rd-entry-title">
+                <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+              </h3>
+              <div class="rd-entry-tags">
+                {{- $kws := .Params.keywords }}
+                {{- if $kws }}
+                  {{- range first 4 $kws }}<span class="pv-tag">{{ . }}</span>{{- end }}
+                {{- end }}
+              </div>
+              {{- with .Params.myNote }}
+              <p class="rd-entry-note">{{ . | truncate 100 }}</p>
+              {{- end }}
+            </div>
+
+            <div class="rd-entry-actions">
+              <a href="{{ .RelPermalink }}" class="rd-entry-link">→</a>
+            </div>
+
+          </article>
+          {{- end }}
+        </div>
+        <p class="rd-count" id="rd-count"></p>
+      </div>
+
+      {{/* 右：标签云 + Top Tags */}}
+      <aside class="rd-sidebar">
+
+        <div class="rd-sidebar-block">
+          <h3 class="rd-sidebar-title">Top Tags</h3>
+          <div class="rd-tag-cloud" id="rd-tag-cloud">
+            {{- $allTags := slice }}
+            {{- $readings := where .Site.RegularPages "Section" "reading" }}
+            {{- range $readings }}
+              {{- range .Params.keywords }}
+                {{- $allTags = $allTags | append . }}
+              {{- end }}
+            {{- end }}
+            {{- $tagCounts := dict }}
+            {{- range $allTags }}
+              {{- $t := . }}
+              {{- $c := index $tagCounts $t | default 0 }}
+              {{- $tagCounts = merge $tagCounts (dict $t (add $c 1)) }}
+            {{- end }}
+            {{- range $tag, $count := $tagCounts }}
+            <button class="rd-tag-btn" data-tag="{{ $tag | lower }}">
+              {{ $tag }}<span class="rd-tag-count">{{ $count }}</span>
+            </button>
+            {{- end }}
+          </div>
+        </div>
+
+        <div class="rd-sidebar-block">
+          <h3 class="rd-sidebar-title">By Field</h3>
+          {{- $fields := slice }}
+          {{- $readings2 := where .Site.RegularPages "Section" "reading" }}
+          {{- range $readings2 }}
+            {{- with .Params.field }}
+              {{- $fields = $fields | append . }}
+            {{- end }}
+          {{- end }}
+          {{- $fieldSet := $fields | uniq }}
+          <div class="rd-field-list">
+            {{- range $fieldSet }}
+            <button class="rd-field-btn" data-field="{{ . | lower }}">{{ . }}</button>
+            {{- end }}
+          </div>
+        </div>
+
+      </aside>
+
+    </div>{{/* /rd-body */}}
+
+  </div>
+</div>
+
+<script src="/js/reading.js" defer></script>
+
+{{- end }}

@@ -1,0 +1,198 @@
+{{- define "main" }}
+{{- $p := .Params }}
+
+<div class="hp-root">
+
+  {{/* ══════════════════════════════════════
+       SECTION 1: HERO
+  ══════════════════════════════════════ */}}
+  <section class="hp-hero pv-container">
+    <div class="hp-hero-left pv-fade-up">
+      <p class="t-eyebrow hp-eyebrow">{{ $p.homeEyebrow | default "Researcher" }}</p>
+      <h1 class="t-display hp-name">{{ .Site.Title }}</h1>
+      <p class="hp-role">{{ $p.homeRole | default "" }}</p>
+      <p class="hp-bio">{{ $p.homeBio | default "" }}</p>
+      <div class="hp-cta">
+        {{- range $p.heroLinks }}
+        <a href="{{ .url | relURL }}" class="pv-btn {{ if .primary }}pv-btn--primary{{ end }}">
+          {{ .label }}
+        </a>
+        {{- end }}
+      </div>
+    </div>
+
+    <div class="hp-hero-right">
+      <!-- Research Network SVG visualization -->
+      <div class="hp-globe">
+        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" class="hp-globe-svg">
+          <defs>
+            <radialGradient id="gGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="var(--rose-mid)" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="var(--rose)" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <!-- Outer circle -->
+          <circle cx="200" cy="200" r="170" fill="none" stroke="var(--line)" stroke-width="0.5"/>
+          <circle cx="200" cy="200" r="170" fill="url(#gGlow)"/>
+          <!-- Latitude lines -->
+          <ellipse cx="200" cy="200" rx="170" ry="50"  fill="none" stroke="var(--line)" stroke-width="0.4" opacity="0.6"/>
+          <ellipse cx="200" cy="200" rx="170" ry="110" fill="none" stroke="var(--line)" stroke-width="0.4" opacity="0.4"/>
+          <!-- Longitude lines -->
+          <line x1="200" y1="30"  x2="200" y2="370" stroke="var(--line)" stroke-width="0.4" opacity="0.5"/>
+          <line x1="30"  y1="200" x2="370" y2="200" stroke="var(--line)" stroke-width="0.4" opacity="0.5"/>
+          <line x1="70"  y1="80"  x2="330" y2="320" stroke="var(--line)" stroke-width="0.4" opacity="0.35"/>
+          <line x1="330" y1="80"  x2="70"  y2="320" stroke="var(--line)" stroke-width="0.4" opacity="0.35"/>
+          <!-- Connection lines between nodes -->
+          <line x1="200" y1="200" x2="130" y2="130" stroke="var(--rose-mid)" stroke-width="0.8" opacity="0.5"/>
+          <line x1="200" y1="200" x2="280" y2="140" stroke="var(--rose-mid)" stroke-width="0.8" opacity="0.5"/>
+          <line x1="200" y1="200" x2="290" y2="260" stroke="var(--rose-mid)" stroke-width="0.8" opacity="0.5"/>
+          <line x1="200" y1="200" x2="120" y2="270" stroke="var(--rose-mid)" stroke-width="0.8" opacity="0.5"/>
+          <line x1="130" y1="130" x2="280" y2="140" stroke="var(--line)"     stroke-width="0.5" opacity="0.4"/>
+          <line x1="280" y1="140" x2="290" y2="260" stroke="var(--line)"     stroke-width="0.5" opacity="0.4"/>
+          <line x1="290" y1="260" x2="120" y2="270" stroke="var(--line)"     stroke-width="0.5" opacity="0.4"/>
+          <line x1="120" y1="270" x2="130" y2="130" stroke="var(--line)"     stroke-width="0.5" opacity="0.4"/>
+          <!-- Satellite nodes -->
+          <circle cx="130" cy="130" r="5" fill="var(--rose-mid)" opacity="0.8"/>
+          <circle cx="280" cy="140" r="5" fill="var(--rose-mid)" opacity="0.8"/>
+          <circle cx="290" cy="260" r="5" fill="var(--rose-mid)" opacity="0.8"/>
+          <circle cx="120" cy="270" r="5" fill="var(--rose-mid)" opacity="0.8"/>
+          <!-- Outer small dots -->
+          <circle cx="200" cy="40"  r="3" fill="var(--line-2)" opacity="0.7"/>
+          <circle cx="355" cy="155" r="2" fill="var(--line-2)" opacity="0.6"/>
+          <circle cx="340" cy="290" r="2" fill="var(--line-2)" opacity="0.5"/>
+          <circle cx="75"  cy="300" r="2" fill="var(--line-2)" opacity="0.5"/>
+          <circle cx="60"  cy="160" r="3" fill="var(--line-2)" opacity="0.6"/>
+          <!-- Center node -->
+          <circle cx="200" cy="200" r="10" fill="var(--rose)" opacity="0.9"/>
+          <circle cx="200" cy="200" r="16" fill="var(--rose)" opacity="0.12"/>
+          <circle cx="200" cy="200" r="24" fill="var(--rose)" opacity="0.06"/>
+          <!-- Labels -->
+          <text x="108" y="122" font-size="9" fill="var(--text-3)" font-family="var(--font-sans)" text-anchor="middle">IP</text>
+          <text x="285" y="132" font-size="9" fill="var(--text-3)" font-family="var(--font-sans)" text-anchor="middle">Trade</text>
+          <text x="300" y="278" font-size="9" fill="var(--text-3)" font-family="var(--font-sans)" text-anchor="middle">Tech</text>
+          <text x="108" y="285" font-size="9" fill="var(--text-3)" font-family="var(--font-sans)" text-anchor="middle">Law</text>
+          <text x="200" y="203" font-size="8" fill="white" font-family="var(--font-sans)" text-anchor="middle" font-weight="500">Research</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  {{/* ══════════════════════════════════════
+       SECTION 2: RESEARCH FOCUS
+  ══════════════════════════════════════ */}}
+  <section class="hp-focus pv-container">
+    <div class="pv-sec-header">
+      <span class="t-section">Research Focus</span>
+    </div>
+    <div class="hp-focus-grid">
+      {{- range $p.researchAreas }}
+      <a href="{{ .url | relURL }}" class="hp-focus-card">
+        <div class="hp-focus-icon">{{ .icon | default "◆" }}</div>
+        <div class="hp-focus-body">
+          <h3 class="hp-focus-name">{{ .name }}</h3>
+          <p class="hp-focus-desc">{{ .shortDesc }}</p>
+        </div>
+      </a>
+      {{- end }}
+    </div>
+  </section>
+
+  {{/* ══════════════════════════════════════
+       SECTION 3: LATEST WORK + LATEST NOTE
+  ══════════════════════════════════════ */}}
+  <section class="hp-latest pv-container">
+    <div class="hp-latest-grid">
+
+      <!-- Latest Work -->
+      <div class="hp-latest-col">
+        <div class="pv-sec-header">
+          <span class="t-section">Latest Work</span>
+          <a href="/publications/" class="pv-sec-more">All publications →</a>
+        </div>
+        {{- with $p.currentProject }}
+        <div class="hp-work-card">
+          <div class="hp-work-meta">
+            <span class="pv-badge pv-badge--wip">{{ .type | default "Working Paper" }}</span>
+            <span class="hp-work-date">{{ .date | default "" }}</span>
+          </div>
+          <h3 class="hp-work-title">
+            {{- if .url }}<a href="{{ .url | relURL }}">{{ .title }}</a>
+            {{- else }}{{ .title }}{{ end }}
+          </h3>
+          <p class="hp-work-abstract">{{ .description }}</p>
+          <div class="hp-work-footer">
+            <span class="hp-work-status">
+              <span class="pv-pulse"></span> Status: {{ .status }}
+            </span>
+            <span class="hp-work-updated">· Updated: {{ .updated | default .date }}</span>
+          </div>
+        </div>
+        {{- end }}
+      </div>
+
+      <!-- Latest Note -->
+      <div class="hp-latest-col">
+        <div class="pv-sec-header">
+          <span class="t-section">Latest Note</span>
+          <a href="/notes/" class="pv-sec-more">All notes →</a>
+        </div>
+        {{- $notes := where .Site.RegularPages "Section" "notes" }}
+        {{- range first 1 $notes }}
+        <div class="hp-note-card">
+          <p class="hp-note-date">{{ .Date.Format "Jan 2, 2006" }}</p>
+          <h3 class="hp-note-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+          <p class="hp-note-excerpt">{{ .Summary | truncate 140 }}</p>
+          <a href="{{ .RelPermalink }}" class="hp-note-link">Read Note →</a>
+        </div>
+        {{- end }}
+      </div>
+
+    </div>
+  </section>
+
+  {{/* ══════════════════════════════════════
+       SECTION 4: READING SNAPSHOT
+  ══════════════════════════════════════ */}}
+  {{- with $p.featuredReading }}
+  <section class="hp-reading pv-container">
+    <div class="pv-sec-header">
+      <span class="t-section">Reading Snapshot</span>
+      <a href="/reading/" class="pv-sec-more">Full bibliography →</a>
+    </div>
+    <div class="hp-reading-grid">
+      {{- range . }}
+      <div class="hp-reading-item">
+        <div class="hp-reading-cover">
+          <span>{{ substr .author 0 1 }}</span>
+        </div>
+        <div class="hp-reading-body">
+          <span class="hp-reading-author">{{ .author }}</span>
+          <span class="hp-reading-title">{{ .title }}</span>
+          <div class="hp-reading-tags">
+            {{- range .tags }}
+            <span class="pv-tag">{{ . }}</span>
+            {{- end }}
+          </div>
+        </div>
+        <span class="hp-reading-year">{{ .year }}</span>
+      </div>
+      {{- end }}
+    </div>
+  </section>
+  {{- end }}
+
+  {{/* ══════════════════════════════════════
+       SECTION 5: CONTACT STRIP
+  ══════════════════════════════════════ */}}
+  <section class="hp-contact pv-container">
+    <p class="hp-contact-text">{{ $p.contactLine | default "Open to research collaboration and academic correspondence." }}</p>
+    <div class="hp-contact-links">
+      {{- range $p.contactLinks }}
+      <a href="{{ .url }}" class="hp-contact-link" target="_blank" rel="noopener">{{ .label }}</a>
+      {{- end }}
+    </div>
+  </section>
+
+</div>
+
+{{- end }}

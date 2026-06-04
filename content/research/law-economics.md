@@ -1,64 +1,17 @@
 ---
 title: "Law & Economics"
-date: 2025-01-01
+area: "Law & Economics"
+summary: "Applying mechanism design and contract theory to IP law: patent breadth, licensing terms, and the interaction between competition law and intellectual property."
+weight: 4
 ---
 
-# Law & Economics
+## Overview
 
-## Research Overview
+I apply tools from mechanism design and contract theory to questions in intellectual property law, aiming to provide welfare-grounded analysis of legal rules often debated in purely doctrinal terms.
 
-Law & Economics applies economic reasoning to legal institutions and public policy.
+## Topics
 
-My interests focus on understanding how legal rules shape incentives, behavior, and economic performance.
-
----
-
-## Core Questions
-
-- How do institutions affect economic development?
-
-- What legal arrangements promote innovation?
-
-- How can economic analysis improve legal design?
-
-- What role do courts play in market efficiency?
-
----
-
-## Research Topics
-
-### Institutional Economics
-
-Examining institutions as determinants of economic performance.
-
-### Innovation Regulation
-
-Studying legal frameworks governing innovation.
-
-### Economic Analysis of Law
-
-Applying economic theory to legal questions.
-
----
-
-## Selected Reading
-
-- Coase (1960)
-- Posner (1973)
-- North (1990)
-
----
-
-## Current Interests
-
-- Innovation Institutions
-- Intellectual Property Systems
-- Regulatory Design
-
----
-
-## Future Directions
-
-- Economic Analysis of Judicial Decisions
-- Institutional Quality and Innovation
-- Legal Foundations of Growth
+- Optimal patent length and breadth in open economies
+- Compulsory licensing provisions
+- Interaction between competition (antitrust) law and IP rights
+- Licensing contract design under asymmetric information

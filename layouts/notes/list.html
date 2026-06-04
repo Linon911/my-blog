@@ -1,0 +1,76 @@
+{{- define "main" }}
+
+<div class="nt-root pv-page">
+  <div class="pv-container">
+
+    <div class="pv-page-header">
+      <p class="t-eyebrow">Writing</p>
+      <h1 class="t-title" style="margin: var(--s2) 0 var(--s2);">Notes</h1>
+      <p class="t-lead">Short-form writing on research ideas, readings, and academic life.</p>
+    </div>
+
+    {{/* ── 过滤工具栏 ── */}}
+    <div class="nt-toolbar">
+      <div class="nt-tags-row" id="nt-tags">
+        <button class="nt-tag-btn nt-tag-btn--active" data-tag="all">All</button>
+        {{- $allTags := slice }}
+        {{- range where .Site.RegularPages "Section" "notes" }}
+          {{- range .Params.tags }}
+            {{- $allTags = $allTags | append . }}
+          {{- end }}
+        {{- end }}
+        {{- range $allTags | uniq }}
+        <button class="nt-tag-btn" data-tag="{{ . | lower }}">{{ . }}</button>
+        {{- end }}
+      </div>
+      <div class="nt-search-wrap">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input type="text" id="nt-search" class="nt-search-input" placeholder="Search notes…" autocomplete="off">
+      </div>
+    </div>
+
+    {{/* ── 笔记网格 ── */}}
+    <div class="nt-grid" id="nt-grid">
+      {{- $notes := where .Site.RegularPages "Section" "notes" }}
+      {{- range $notes }}
+      {{- $tagStr := "" }}
+      {{- range .Params.tags }}{{- $tagStr = printf "%s %s" $tagStr (. | lower) }}{{- end }}
+      <article class="nt-card"
+        data-tags="{{ $tagStr | strings.TrimSpace }}"
+        data-title="{{ .Title | lower }}">
+
+        <div class="nt-card-top">
+          <span class="nt-card-date">{{ .Date.Format "Jan 2, 2006" }}</span>
+          <span class="nt-card-read">{{ div (len .Content) 1000 | add 1 }} min read</span>
+        </div>
+
+        <h2 class="nt-card-title">
+          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        </h2>
+
+        <p class="nt-card-excerpt">{{ .Summary | truncate 160 }}</p>
+
+        <div class="nt-card-footer">
+          <div class="nt-card-tags">
+            {{- $tags := .Params.tags }}
+            {{- if $tags }}
+              {{- range first 3 $tags }}<span class="pv-tag">{{ . }}</span>{{- end }}
+            {{- end }}
+          </div>
+          <a href="{{ .RelPermalink }}" class="nt-card-link">Read →</a>
+        </div>
+
+      </article>
+      {{- end }}
+    </div>
+
+    <p class="nt-count" id="nt-count"></p>
+
+  </div>
+</div>
+
+<script src="/js/notes.js" defer></script>
+
+{{- end }}

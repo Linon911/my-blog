@@ -1,33 +1,20 @@
 ---
+title: "Trade Agreements and IP Harmonization: Evidence from TRIPS"
+date: 2025-08-01
+pubType: Presentation
+status: Presented
+authors:
+  - Povaka
+keywords:
+  - Trade Law
+  - TRIPS
+  - IP Harmonization
+  - WTO
+venue: "Annual Conference on International Economics, 2025"
+abstract: >
+  This presentation examines how TRIPS-plus provisions in bilateral trade agreements
+  affect technology transfer and innovation in signatory countries, with particular
+  attention to asymmetric bargaining power between developed and developing nations.
+---
 
-title: "International Trade Law and Innovation"
-type: "conference"
-year: 2025
-area: "International Trade Law"
-status: "presented"
-
-authors: ["Your Name"]
-
-description: "Examining how legal frameworks influence innovation and technological development in international trade."
-
-summary: "This conference paper investigates the interaction between international trade law and innovation, focusing on how legal institutions shape incentives for technological development and knowledge diffusion across borders."
-
-keywords: ["international trade", "trade law", "innovation", "technology transfer", "intellectual property"]
-
-related: ["intellectual-property-and-technology-transfer", "innovation-and-economic-growth", "technology-transfer"]
-
-conference: ""
-location: ""
-presentation_date: ""
-pdf: ""
--------
-
-## Abstract
-
-This paper discusses the legal frameworks that influence innovation in the context of international trade.
-
-## Research Questions
-
-1. How does international trade law influence innovation incentives?
-2. What role do legal institutions play in technology diffusion?
-3. How can trade policy promote innovation-driven growth?
+Presentation at the Annual Conference on International Economics (2025).

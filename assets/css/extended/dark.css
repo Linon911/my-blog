@@ -1,317 +1,108 @@
-/* ============================================================
-   POVAKA.COM — DARK MODE
-   Adapts all components for dark theme
-   ============================================================ */
+/* ═══════════════════════════════════════════════════════
+   DARK MODE PATCHES
+   ═══════════════════════════════════════════════════════ */
 
-/* PaperMod uses class "dark" on <body> */
-.dark body,
-body.dark,
-[data-theme="dark"] body {
-  background: var(--surface);
-  color: var(--ink-700);
+/* MathJax in dark */
+.dark mjx-container[display="true"] {
+  background: var(--paper-3);
+  border-color: var(--rule);
 }
 
-/* Header in dark */
-.dark .header,
-body.dark .header {
-  background: rgba(28, 27, 24, 0.92);
-  border-bottom-color: var(--border);
+/* Code blocks */
+.dark .post-content code {
+  background: var(--paper-3);
+  color: var(--accent-2);
 }
 
-/* Navigation links */
-.dark #menu li a,
-body.dark #menu li a {
-  color: var(--ink-500);
+/* Timeline rail in dark */
+.dark .timeline::before {
+  background: linear-gradient(to bottom, var(--accent) 0%, transparent 100%);
 }
 
-.dark #menu li a:hover,
-body.dark #menu li a:hover {
-  color: var(--ink-900);
-  background: var(--surface-3);
+/* Home hero accent bar in dark */
+.dark .home-info-container::before {
+  background: var(--accent);
 }
 
-/* Logo */
-.dark .logo a,
-body.dark .logo a,
-.dark #site-header .logo a,
-body.dark #site-header .logo a {
-  color: var(--ink-900);
+/* Pub filter sticky bar in dark */
+.dark .pub-filters {
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
 }
 
-/* Cards & surfaces */
-.dark .research-card,
-body.dark .research-card {
-  background: var(--surface);
-  border-color: var(--border);
+/* Search input in dark */
+.dark .pub-search-input,
+.dark #searchInput {
+  background: var(--paper-2);
+  color: var(--ink);
+  border-color: var(--rule);
 }
 
-.dark .research-card:hover,
-body.dark .research-card:hover {
-  border-color: var(--border-mid);
+/* TOC in dark */
+.dark .toc {
+  background: var(--paper-2);
+  border-color: var(--rule);
+  border-left-color: var(--accent);
 }
 
-.dark .research-card.featured,
-body.dark .research-card.featured {
-  background: var(--accent-soft);
-  border-color: var(--accent-mid);
-}
+/* CV header rule in dark */
+.dark .cv-header { border-bottom-color: var(--rule); }
 
-.dark .focus-card,
-body.dark .focus-card {
-  background: var(--surface-2);
-  border-color: var(--border);
-}
-
-.dark .stat-item,
-body.dark .stat-item {
-  background: var(--surface-2);
-  border-color: var(--border);
-}
-
-.dark .now-card,
-body.dark .now-card {
-  background: var(--surface-2);
-  border-color: var(--border);
-}
-
-/* Post content */
-.dark .post-content,
-body.dark .post-content {
-  color: var(--ink-700);
-}
-
-.dark .post-content h1,
-.dark .post-content h2,
-.dark .post-content h3,
-.dark .post-content h4,
-body.dark .post-content h1,
-body.dark .post-content h2,
-body.dark .post-content h3,
-body.dark .post-content h4 {
-  color: var(--ink-900);
-}
-
-.dark .post-content h2,
-body.dark .post-content h2 {
-  border-bottom-color: var(--border);
-}
-
-.dark .post-content blockquote,
-body.dark .post-content blockquote {
-  background: var(--accent-soft);
-  border-left-color: var(--accent-mid);
-  color: var(--ink-500);
-}
-
-.dark .post-content code,
-body.dark .post-content code {
-  background: var(--surface-3);
-  border-color: var(--border);
-  color: var(--ink-700);
-}
-
-.dark .post-content pre,
-body.dark .post-content pre {
-  background: var(--surface-2);
-  border-color: var(--border);
-}
-
-.dark .post-content table th,
-body.dark .post-content table th {
-  color: var(--ink-900);
-  border-bottom-color: var(--border-mid);
-}
-
-.dark .post-content table td,
-body.dark .post-content table td {
-  color: var(--ink-500);
-  border-bottom-color: var(--border);
-}
-
-/* TOC */
-.dark #TableOfContents,
-body.dark #TableOfContents {
-  background: var(--surface-2);
-  border-color: var(--border);
-}
-
-.dark #TableOfContents a,
-body.dark #TableOfContents a {
-  color: var(--ink-500);
-}
-
-/* Tags */
-.dark .post-tags a,
-.dark .tag,
-body.dark .post-tags a,
-body.dark .tag {
-  background: var(--tag-bg);
-  color: var(--tag-text);
-}
-
-/* Citations */
-.dark .citation,
-body.dark .citation {
-  background: var(--surface-2);
-  border-color: var(--border);
-}
-
-.dark .citation-copy,
-body.dark .citation-copy {
-  background: var(--surface-3);
-  border-color: var(--border);
-  color: var(--ink-300);
-}
-
-/* Publication list */
-.dark .pub-item,
-body.dark .pub-item {
-  border-bottom-color: var(--border);
-}
-
-.dark .pub-title,
-body.dark .pub-title {
-  color: var(--ink-900);
-}
-
-.dark .pub-link,
-body.dark .pub-link {
-  border-color: var(--border);
-}
-
-.dark .pub-link:hover,
-body.dark .pub-link:hover {
-  border-color: var(--accent-mid);
-  background: var(--accent-soft);
-}
-
-/* Writing list */
-.dark .writing-row,
-body.dark .writing-row {
-  border-bottom-color: var(--border);
-}
-
-.dark .writing-title,
-body.dark .writing-title {
-  color: var(--ink-700);
-}
-
-/* Timeline */
-.dark .timeline::before,
-body.dark .timeline::before {
-  background: var(--border);
-}
-
-.dark .timeline-item::before,
-body.dark .timeline-item::before {
-  background: var(--accent-mid);
-  border-color: var(--surface);
-  outline-color: var(--accent-mid);
-}
-
-/* Book cards */
+/* Book cards in dark */
 .dark .book-card,
-body.dark .book-card {
-  background: var(--surface);
-  border-color: var(--border);
+.dark .note-card,
+.dark .pub-card,
+.dark .research-card,
+.dark .tech-card,
+.dark .sidebar-block,
+.dark .current-projects {
+  background: var(--entry);
+  border-color: var(--rule);
 }
 
-.dark .book-cover,
-body.dark .book-cover {
-  background: var(--surface-3);
+/* Badge dark fixes — already covered by CSS vars but explicit safety */
+.dark .badge-wp { background: var(--badge-wp-bg); color: var(--badge-wp-tx); }
+.dark .badge-cf { background: var(--badge-cf-bg); color: var(--badge-cf-tx); }
+.dark .badge-pr { background: var(--badge-pr-bg); color: var(--badge-pr-tx); }
+.dark .badge-pb { background: var(--badge-pb-bg); color: var(--badge-pb-tx); }
+
+/* Nav in dark */
+.dark #site-header,
+.dark .nav {
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  border-bottom-color: var(--rule);
 }
 
-/* Buttons */
-.dark .btn-ghost,
-body.dark .btn-ghost {
-  color: var(--ink-500);
-  border-color: var(--border);
+/* Post entry card in dark */
+.dark .post-entry {
+  background: var(--entry);
+  border-color: var(--rule);
 }
 
-.dark .btn-ghost:hover,
-body.dark .btn-ghost:hover {
-  color: var(--ink-900);
-  border-color: var(--border-mid);
-  background: var(--surface-3);
+/* Citation box in dark */
+.dark .citation-box {
+  background: var(--paper-3);
+  border-color: var(--rule);
+  border-left-color: var(--accent);
 }
 
-/* List hero */
-.dark .list-hero h1,
-body.dark .list-hero h1 {
-  color: var(--ink-900);
+/* Blockquote in dark */
+.dark .post-content blockquote {
+  background: var(--accent-bg);
+  border-left-color: var(--accent);
 }
 
-.dark .list-hero,
-body.dark .list-hero {
-  border-bottom-color: var(--border);
+/* Filter tabs in dark */
+.dark .pub-filter-tabs {
+  background: var(--paper-3);
+  border-color: var(--rule);
 }
+.dark .pub-tab { color: var(--ink-3); }
+.dark .pub-tab.active { background: var(--accent); color: #fff; }
 
-/* Note rows */
-.dark .note-row,
-body.dark .note-row {
-  border-bottom-color: var(--border);
+/* Contact link in dark */
+.dark .contact-link {
+  background: var(--accent-bg);
+  border-color: var(--accent-ring);
+  color: var(--accent);
 }
-
-.dark .note-title,
-body.dark .note-title {
-  color: var(--ink-700);
-}
-
-/* Search */
-.dark #searchbox input,
-body.dark #searchbox input {
-  background: var(--surface-2);
-  border-color: var(--border);
-  color: var(--ink-900);
-}
-
-/* Theme toggle */
-.dark #theme-toggle,
-body.dark #theme-toggle {
-  border-color: var(--border);
-  color: var(--ink-500);
-}
-
-/* Footer */
-.dark .footer,
-body.dark .footer {
-  border-top-color: var(--border);
-  color: var(--ink-300);
-}
-
-/* Pagination */
-.dark .pagination a,
-body.dark .pagination a {
-  border-color: var(--border);
-  color: var(--accent-mid);
-}
-
-.dark .pagination a:hover,
-body.dark .pagination a:hover {
-  border-color: var(--accent-mid);
-  background: var(--accent-soft);
-}
-
-/* CV rows */
-.dark .cv-section-title,
-body.dark .cv-section-title {
-  color: var(--ink-300);
-  border-bottom-color: var(--border);
-}
-
-.dark .cv-title,
-body.dark .cv-title {
-  color: var(--ink-900);
-}
-
-/* Divider */
-.dark .divider,
-body.dark .divider {
-  border-top-color: var(--border);
-}
-
-/* Section borders */
-.dark .section,
-body.dark .section {
-  border-bottom-color: var(--border);
-}
+.dark .contact-link:hover { background: var(--accent); color: #fff; }

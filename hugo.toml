@@ -1,190 +1,116 @@
-baseURL = "https://www.povaka.com/"
-defaultContentLanguage = "en"
+baseURL = "https://linon9ll.github.io/"
+locale = "en-US"
 title = "Povaka"
 theme = "PaperMod"
-
+paginate = 10
 enableRobotsTXT = true
 buildDrafts = false
 buildFuture = false
 buildExpired = false
-
-[pagination]
-pagerSize = 10
-
-############################
-
-# Academic Site Metadata
-
-############################
-
-[params]
-
-author = "Povaka"
-
-description = "Research on Technology Transfer, Intellectual Property Protection, International Trade and Law & Economics."
-
-keywords = [
-"Technology Transfer",
-"Intellectual Property",
-"International Trade",
-"Law and Economics",
-"Innovation",
-"Research"
-]
-
-defaultTheme = "light"
-
-disableSpecial1stPost = true
-
-ShowBreadCrumbs = true
-ShowPostNavLinks = true
-ShowCodeCopyButtons = true
-ShowReadingTime = true
-ShowWordCount = true
-ShowShareButtons = false
-
-ShowToc = true
-TocOpen = false
-
-math = true
-
-ShowSearchPage = true
-
-############################
-
-# Homepage
-
-############################
-
-[params.homeInfoParams]
-
-Title = "Povaka"
-
-Content = """
-Researcher in International Trade, Intellectual Property and Law & Economics.
-
-This website documents my research projects, academic writing, reading database and technical explorations.
-
-Research Interests:
-
-• Technology Transfer
-
-• Intellectual Property Protection
-
-• International Trade
-
-• Law & Economics
-
-• Innovation Policy
-"""
-
-############################
-
-# Social Links
-
-############################
-
-[[params.socialIcons]]
-name = "github"
-url = "https://github.com/Linon911"
-
-[[params.socialIcons]]
-name = "email"
-url = "mailto:even86400@gmail.com"
-
-############################
-
-# Assets
-
-############################
-
-[params.assets]
-
-disableFingerprinting = true
-
-favicon = "/favicon.ico"
-
-############################
-
-# Navigation
-
-############################
-
-[[menu.main]]
-name = "Research"
-url = "/research/"
-weight = 10
-
-[[menu.main]]
-name = "Publications"
-url = "/publications/"
-weight = 20
-
-[[menu.main]]
-name = "Reading"
-url = "/reading/"
-weight = 30
-
-[[menu.main]]
-name = "Notes"
-url = "/notes/"
-weight = 40
-
-[[menu.main]]
-name = "Tech"
-url = "/tech/"
-weight = 50
-
-[[menu.main]]
-name = "CV"
-url = "/cv/"
-weight = 60
-
-[[menu.main]]
-name = "Timeline"
-url = "/timeline/"
-weight = 70
-
-[[menu.main]]
-name = "About"
-url = "/about/"
-weight = 80
-
-[[menu.main]]
-name = "Search"
-url = "/search/"
-weight = 90
-
-############################
-
-# Outputs
-
-############################
-
-[outputs]
-
-home = ["HTML", "RSS", "JSON"]
-
-############################
-
-# Syntax Highlight
-
-############################
+enableEmoji = true
 
 [markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    style = "dracula"
+    lineNos = false
+    guessSyntax = true
 
-[markup.highlight]
-style = "github"
-lineNos = false
-codeFences = true
+[minify]
+  disableXML = true
+  minifyOutput = true
 
-############################
+[params]
+  env           = "production"
+  title         = "Povaka"
+  description   = "Researcher in International Trade, Intellectual Property & Law and Economics."
+  author        = "Povaka"
+  DateFormat    = "2006"
+  defaultTheme  = "auto"
+  disableThemeToggle = false
 
-# Goldmark
+  # PaperMod display
+  ShowReadingTime       = false
+  ShowShareButtons      = false
+  ShowPostNavLinks      = true
+  ShowBreadCrumbs       = false
+  ShowCodeCopyButtons   = true
+  ShowWordCount         = false
+  ShowRssButtonInSectionTermList = false
+  UseHugoToc            = true
+  disableScrollToTop    = false
+  comments              = false
+  hidemeta              = true
+  hideSummary           = true
+  showtoc               = true
+  tocopen               = false
 
-############################
+  # Open Graph / Twitter Card
+  images = ["/images/og-card.png"]
 
-[markup.goldmark.renderer]
-unsafe = true
+  [params.homeInfoParams]
+    Title   = "Povaka"
+    Content = "International Trade · Intellectual Property · Law & Economics"
 
+  [[params.socialIcons]]
+    name = "github"
+    url  = "https://github.com/Linon9ll"
 
+  [[params.socialIcons]]
+    name = "email"
+    url  = "mailto:your@email.com"
+
+  # MathJax
+  [params.math]
+    enable = true
+
+  # Schema.org
+  [params.schema]
+    publisherType = "Person"
+
+[taxonomies]
+  tag      = "tags"
+  category = "categories"
+  area     = "areas"
+
+[menu]
+  [[menu.main]]
+    identifier = "research"
+    name       = "Research"
+    url        = "/research/"
+    weight     = 10
+  [[menu.main]]
+    identifier = "publications"
+    name       = "Publications"
+    url        = "/publications/"
+    weight     = 20
+  [[menu.main]]
+    identifier = "notes"
+    name       = "Notes"
+    url        = "/notes/"
+    weight     = 30
+  [[menu.main]]
+    identifier = "reading"
+    name       = "Reading"
+    url        = "/reading/"
+    weight     = 40
+  [[menu.main]]
+    identifier = "timeline"
+    name       = "Timeline"
+    url        = "/timeline/"
+    weight     = 50
+  [[menu.main]]
+    identifier = "cv"
+    name       = "CV"
+    url        = "/cv/"
+    weight     = 60
+  [[menu.main]]
+    identifier = "about"
+    name       = "About"
+    url        = "/about/"
+    weight     = 70
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]

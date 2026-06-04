@@ -1,45 +1,22 @@
 ---
-
-title: "Innovation and Economic Growth"
-type: "working-paper"
-year: 2024
-area: "Innovation Economics"
-status: "draft"
-
-authors: ["Your Name"]
-
-description: "Examining how innovation incentives shape long-run economic growth."
-
-summary: "This paper explores the relationship between innovation, technological progress, and long-run economic growth through the lens of endogenous growth theory."
-
-keywords: [
-"innovation",
-"economic growth",
-"endogenous growth theory",
-"technology",
-"incentives"
-]
-
-related: [
-"technology-transfer",
-"intellectual-property",
-"innovation-policy"
-]
-
-pdf: ""
-
+title: "Optimal Patent Length in Open Economies: A Law and Economics Approach"
+date: 2024-12-01
+pubType: Working Paper
+status: Draft
+pages: "28"
+authors:
+  - Povaka
+keywords:
+  - Patent Policy
+  - Law and Economics
+  - Open Economy
+  - Innovation
+  - Optimal Design
+abstract: >
+  This paper examines the optimal design of patent duration in open economies,
+  accounting for cross-border technology spillovers and heterogeneous enforcement
+  capacity. I show that the optimal patent length differs systematically between
+  developed and developing countries when technology diffusion is endogenous.
 ---
 
-## Abstract
-
-This paper explores endogenous growth theory and investigates how innovation incentives contribute to sustained economic growth. Particular attention is given to the role of technological progress, knowledge accumulation, and institutional frameworks in shaping long-run economic performance.
-
-## Research Questions
-
-1. How does innovation affect long-run economic growth?
-2. What role do incentives play in technological progress?
-3. How do institutions influence innovation outcomes?
-
-## Current Status
-
-Working Draft
+This paper examines optimal patent duration in open economies with heterogeneous enforcement capacity.

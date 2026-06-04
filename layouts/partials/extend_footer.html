@@ -1,0 +1,26 @@
+{{/* Global scroll-reveal + MathJax trigger */}}
+<script>
+(function(){
+  /* ── Reveal on scroll ── */
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.07 });
+
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      if (!el.style.transitionDelay) el.style.transitionDelay = (i * 45) + 'ms';
+      obs.observe(el);
+    });
+  }
+
+  /* ── MathJax typeset on nav ── */
+  if (window.MathJax && window.MathJax.startup) {
+    window.MathJax.startup.promise.then(() => MathJax.typesetPromise());
+  }
+})();
+</script>

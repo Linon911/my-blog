@@ -1,45 +1,31 @@
 ---
-
-title: "Intellectual Property and Technology Transfer"
-type: "working-paper"
-year: 2025
-area: "IP & Innovation"
-status: "draft"
-
-authors: ["Your Name"]
-
-description: "Study on how intellectual property regimes affect technology diffusion and innovation incentives."
-
-summary: "This working paper examines the relationship between intellectual property protection and technology transfer, focusing on how different IP regimes influence innovation diffusion across firms and countries."
-
-keywords: [
-"intellectual property",
-"technology transfer",
-"innovation",
-"technology diffusion",
-"patent protection"
-]
-
-related: [
-"judicial-protection",
-"innovation-incentives",
-"international-trade"
-]
-
-pdf: "/files/papers/ip-transfer.pdf"
-
+title: Technology Transfer under Heterogeneous Intellectual Property Regimes
+date: 2025-05-01
+pubType: Working Paper
+status: In Progress
+pages: "35"
+authors:
+  - Povaka
+keywords:
+  - Technology Transfer
+  - Intellectual Property
+  - Gravity Model
+  - TRIPS
+  - Innovation
+methods:
+  - PPML Gravity Model
+  - Panel Econometrics
+  - Difference-in-Differences
+abstract: >
+  This paper develops a framework to analyze how heterogeneous IP regimes affect
+  international technology transfer and innovation. Using a gravity model with PPML
+  estimation, I exploit TRIPS accession as a quasi-natural experiment to identify
+  the causal effect of IP harmonization on bilateral technology flows. I find that
+  stronger IP protection increases technology transfer to countries with intermediate
+  absorptive capacity, consistent with a market-expansion effect dominating the
+  imitation-deterrence channel.
+pdf: ""
+slides: ""
 ---
 
-## Abstract
-
-This paper investigates how intellectual property protection influences technology transfer and innovation incentives across different institutional environments.
-
-## Research Questions
-
-1. How do intellectual property regimes affect technology diffusion?
-2. What is the relationship between patent protection and innovation incentives?
-3. How do firms respond to different levels of IP protection?
-
-## Current Status
-
-Working Draft
+This paper develops a framework to analyze how heterogeneous IP regimes affect international technology transfer and innovation. Using a gravity model with PPML estimation, I exploit TRIPS accession as a quasi-natural experiment to identify the causal effect of IP harmonization on bilateral technology flows.

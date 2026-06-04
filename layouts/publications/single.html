@@ -1,292 +1,81 @@
-{{ define "main" }}
+{{- define "main" }}
+<div class="pub-single-wrap">
 
-{{ partial "scholar-db.html" . }}
+  <a href="/publications/" class="pub-back-link">
+    ← Publications
+  </a>
 
-<div class="single-pub-page">
-
-  <!-- ══ BREADCRUMB ════════════════════════════════════════════ -->
-  <nav class="single-breadcrumb">
-    <a href="/publications/">Publications</a>
-    <span>›</span>
-    <span>{{ .Params.type | title }}</span>
-  </nav>
-
-  <!-- ══ PAPER HEADER ══════════════════════════════════════════ -->
-  <header class="single-header">
-
-    <div class="single-header-badges">
-      <span class="pub-type-pill pub-type-{{ .Params.type }}">
-        {{ if eq .Params.type "working-paper" }}Working Paper{{ else if eq .Params.type "conference" }}Conference{{ else if eq .Params.type "project" }}Project{{ else }}{{ .Params.type | title }}{{ end }}
-      </span>
-      {{ with .Params.status }}
-      <span class="single-status-pill single-status-{{ . }}">{{ . | title }}</span>
-      {{ end }}
+  <div class="pub-single-header">
+    <div class="pub-single-meta">
+      {{- with .Params.kind }}
+        {{- $cls := "badge badge-wp" }}
+        {{- if eq . "conference" }}{{- $cls = "badge badge-cf" }}{{- end }}
+        {{- if eq . "project"    }}{{- $cls = "badge badge-pr" }}{{- end }}
+        <span class="{{ $cls }}">{{ $.Params.status | default "Working Paper" }}</span>
+      {{- end }}
+      <span class="pub-year">{{ .Params.year | default 2026 }}</span>
+      {{- with .Params.area }}<span class="pub-area-tag">{{ . }}</span>{{- end }}
     </div>
 
-    <h1 class="single-title">{{ .Title }}</h1>
+    <h1 class="pub-single-title">{{ .Title }}</h1>
 
-    <div class="single-meta-row">
-      {{ with .Params.year }}<span class="single-meta-item">{{ . }}</span>{{ end }}
-      {{ with .Params.area }}<span class="single-meta-sep">·</span><span class="single-meta-item">{{ . }}</span>{{ end }}
-      {{ with .Params.conference }}<span class="single-meta-sep">·</span><span class="single-meta-item">{{ . }}</span>{{ end }}
+    {{- with .Params.abstract }}
+    <blockquote class="pub-single-abstract">{{ . }}</blockquote>
+    {{- end }}
+
+    {{- with .Params.coauthors }}
+    <p style="font-family:var(--f-ui);font-size:.82rem;color:var(--ink-4);margin-top:1rem;">
+      With: {{ delimit . ", " }}
+    </p>
+    {{- end }}
+
+    {{- with .Params.links }}
+    <div class="pub-links" style="margin-top:1.5rem;">
+      {{- range . }}
+      <a class="pub-link-btn" href="{{ .url }}" target="_blank" rel="noopener">{{ .label }} ↗</a>
+      {{- end }}
     </div>
+    {{- end }}
 
-    {{ with .Params.authors }}
-    <div class="single-authors">
-      {{ range . }}<span class="single-author">{{ . }}</span>{{ end }}
+    {{- with .Params.keywords }}
+    <div style="margin-top:1.25rem;display:flex;flex-wrap:wrap;gap:.35rem;">
+      {{- range . }}
+      <span style="font-family:var(--f-mono);font-size:.65rem;padding:.2em .55em;background:var(--paper-3);color:var(--ink-4);border-radius:4px;letter-spacing:.06em;text-transform:uppercase;">{{ . }}</span>
+      {{- end }}
     </div>
-    {{ end }}
-
-    {{ with .Params.keywords }}
-    <div class="single-keywords">
-      {{ range . }}<span class="single-kw">{{ . }}</span>{{ end }}
-    </div>
-    {{ end }}
-
-    <!-- Quick actions -->
-    <div class="single-actions">
-      {{ with .Params.pdf }}
-      <a href="{{ . }}" class="single-btn single-btn-primary" target="_blank" rel="noopener">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M3 4a1 1 0 011-1h6l3 3v6a1 1 0 01-1 1H4a1 1 0 01-1-1V4z"/><polyline points="9 3 9 7 13 7"/></svg>
-        View PDF
-      </a>
-      {{ end }}
-      <button class="single-btn single-btn-ghost" id="cite-toggle">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M4 2h8a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z"/><line x1="5" y1="6" x2="11" y2="6"/><line x1="5" y1="9" x2="9" y2="9"/></svg>
-        Cite
-      </button>
-      <button class="single-btn single-btn-ghost" id="insight-btn">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
-        AI Insight
-      </button>
-    </div>
-
-  </header>
-
-  <!-- ══ CITATION BLOCK (collapsible) ══════════════════════════ -->
-  <div class="cite-block" id="cite-block" style="display:none">
-    <div class="cite-tabs">
-      <button class="cite-tab active" data-fmt="apa">APA</button>
-      <button class="cite-tab" data-fmt="mla">MLA</button>
-      <button class="cite-tab" data-fmt="bib">BibTeX</button>
-    </div>
-    <pre class="cite-pre" id="cite-pre"><!-- populated by JS --></pre>
-    <button class="cite-copy-btn" id="cite-copy-btn">Copy citation</button>
+    {{- end }}
   </div>
 
-  <!-- ══ AI INSIGHT BLOCK ═══════════════════════════════════════ -->
-  <div class="insight-block" id="insight-block" style="display:none">
-    <div class="insight-head">
-      <span class="insight-orb"></span>
-      <span>AI Research Insight</span>
-    </div>
-    <div class="insight-body" id="insight-body">
-      <div class="ai-thinking"><span></span><span></span><span></span></div>
-    </div>
+  {{- if .Content }}
+  <div class="post-content">
+    {{ .Content }}
   </div>
+  {{- end }}
 
-  <!-- ══ TWO-COLUMN LAYOUT ══════════════════════════════════════ -->
-  <div class="single-layout">
-
-    <!-- Main content -->
-    <div class="single-main">
-      {{ .Content }}
+  {{- /* Related publications by area */ -}}
+  {{- $area := .Params.area | default "" }}
+  {{- $current := . }}
+  {{- if $area }}
+  {{- $related := slice }}
+  {{- range .Site.Pages }}
+    {{- if and (eq .Type "publications") (not .IsSection) (ne .Permalink $current.Permalink) }}
+      {{- if eq (.Params.area | default "") $area }}
+        {{- $related = $related | append . }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+  {{- if $related }}
+  <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid var(--rule);">
+    <p style="font-family:var(--f-mono);font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-4);margin-bottom:1rem;">Related Research</p>
+    {{- range first 3 $related }}
+    <div style="margin-bottom:.75rem;">
+      <a href="{{ .RelPermalink }}" style="font-family:var(--f-display);font-size:.92rem;font-weight:500;color:var(--ink);text-decoration:none;transition:color .14s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--ink)'">{{ .Title }}</a>
+      <span style="font-family:var(--f-mono);font-size:.68rem;color:var(--ink-4);margin-left:.5rem;">{{ .Params.year | default 2026 }}</span>
     </div>
+    {{- end }}
+  </div>
+  {{- end }}
+  {{- end }}
 
-    <!-- Sidebar -->
-    <aside class="single-sidebar">
-
-      <!-- Details card -->
-      <div class="sidebar-card">
-        <div class="sidebar-card-title">Details</div>
-        <div class="sidebar-detail-row">
-          <span class="sidebar-detail-label">Year</span>
-          <span class="sidebar-detail-val">{{ .Params.year | default "—" }}</span>
-        </div>
-        <div class="sidebar-detail-row">
-          <span class="sidebar-detail-label">Area</span>
-          <span class="sidebar-detail-val">{{ .Params.area | default "—" }}</span>
-        </div>
-        <div class="sidebar-detail-row">
-          <span class="sidebar-detail-label">Status</span>
-          <span class="sidebar-detail-val">{{ .Params.status | title | default "—" }}</span>
-        </div>
-        {{ with .Params.conference }}
-        <div class="sidebar-detail-row">
-          <span class="sidebar-detail-label">Conference</span>
-          <span class="sidebar-detail-val">{{ . }}</span>
-        </div>
-        {{ end }}
-        {{ with .Params.project_url }}
-        <div class="sidebar-detail-row">
-          <span class="sidebar-detail-label">URL</span>
-          <span class="sidebar-detail-val"><a href="{{ . }}" target="_blank" rel="noopener">{{ . }}</a></span>
-        </div>
-        {{ end }}
-      </div>
-
-      <!-- Related works card -->
-      {{ with .Params.related }}
-      <div class="sidebar-card" id="related-card">
-        <div class="sidebar-card-title">Related Works</div>
-        <div id="related-list">
-          <!-- populated by JS from PUB_DB -->
-        </div>
-      </div>
-      {{ end }}
-
-    </aside>
-
-  </div><!-- /single-layout -->
-
-</div><!-- /single-pub-page -->
-
-<script>
-
-/* ══════════════════════════════════════════════════════════════
-   CITATION ENGINE
-══════════════════════════════════════════════════════════════ */
-
-const PAPER = {
-  title:   {{ .Title | jsonify }},
-  year:    {{ .Params.year | default 0 }},
-  authors: {{ .Params.authors | default (slice "Author") | jsonify }},
-  area:    {{ .Params.area | default "" | jsonify }},
-  slug:    {{ .File.TranslationBaseName | jsonify }},
-};
-
-const FORMATS = {
-  apa: () => {
-    const a = PAPER.authors.join(", ");
-    return `${a} (${PAPER.year || "n.d."}). ${PAPER.title}. Working Paper.`;
-  },
-  mla: () => {
-    const a = PAPER.authors[0] || "Author";
-    const rest = PAPER.authors.slice(1);
-    const auth = rest.length ? a + ", et al." : a;
-    return `${auth}. "${PAPER.title}." Working Paper, ${PAPER.year || "n.d."}.`;
-  },
-  bib: () =>
-    `@article{${PAPER.slug},\n  title={${PAPER.title}},\n  author={${PAPER.authors.join(" and ")}},\n  year={${PAPER.year || ""}}\n}`,
-};
-
-let currentFmt = "apa";
-
-function setCiteText() {
-  document.getElementById("cite-pre").textContent = FORMATS[currentFmt]();
-}
-
-/* Toggle cite block */
-document.getElementById("cite-toggle").addEventListener("click", () => {
-  const block = document.getElementById("cite-block");
-  const visible = block.style.display !== "none";
-  block.style.display = visible ? "none" : "block";
-  if (!visible) setCiteText();
-});
-
-/* Tab switching */
-document.querySelectorAll(".cite-tab").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".cite-tab").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    currentFmt = btn.dataset.fmt;
-    setCiteText();
-  });
-});
-
-/* Copy */
-document.getElementById("cite-copy-btn").addEventListener("click", () => {
-  navigator.clipboard.writeText(document.getElementById("cite-pre").textContent).then(() => {
-    const btn = document.getElementById("cite-copy-btn");
-    btn.textContent = "Copied!";
-    setTimeout(() => btn.textContent = "Copy citation", 1800);
-  });
-});
-
-/* ══════════════════════════════════════════════════════════════
-   AI INSIGHT
-══════════════════════════════════════════════════════════════ */
-
-const SUMMARY = {{ .Params.summary | default "" | jsonify }};
-const KEYWORDS = {{ .Params.keywords | default (slice) | jsonify }};
-const AREA = {{ .Params.area | default "" | jsonify }};
-
-let insightLoaded = false;
-
-document.getElementById("insight-btn").addEventListener("click", async () => {
-  const block = document.getElementById("insight-block");
-  const visible = block.style.display !== "none";
-
-  if (visible) { block.style.display = "none"; return; }
-  block.style.display = "block";
-
-  if (insightLoaded) return;
-  insightLoaded = true;
-
-  const prompt = `You are an academic research assistant. Based on the metadata below, provide a concise structured insight. Use plain text paragraphs, no bullet points or markdown. Structure your response with three sections labelled "Summary:", "Key Contribution:", and "Research Extension:". Each section should be 2-3 sentences.
-
-Title: ${PAPER.title}
-Area: ${AREA}
-Keywords: ${KEYWORDS.join(", ")}
-Author summary: ${SUMMARY || "Not provided."}`;
-
-  try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 1000,
-        messages: [{ role: "user", content: prompt }]
-      })
-    });
-    const data = await res.json();
-    const text = (data.content || []).map(b => b.text || "").join("");
-
-    const formatted = text
-      .replace(/Summary:/g,   '<strong class="ai-section-label">Summary</strong>')
-      .replace(/Key Contribution:/g, '<strong class="ai-section-label">Key Contribution</strong>')
-      .replace(/Research Extension:/g, '<strong class="ai-section-label">Research Extension</strong>');
-
-    document.getElementById("insight-body").innerHTML =
-      `<div class="ai-content">${formatted}</div>`;
-  } catch(err) {
-    document.getElementById("insight-body").innerHTML =
-      `<p class="ai-error">Could not generate insight.</p>`;
-  }
-});
-
-/* ══════════════════════════════════════════════════════════════
-   RELATED WORKS (from PUB_DB)
-══════════════════════════════════════════════════════════════ */
-
-const RELATED_SLUGS = {{ .Params.related | default (slice) | jsonify }};
-const DB = window.PUB_DB || [];
-
-function buildRelated() {
-  const container = document.getElementById("related-list");
-  if (!container) return;
-
-  const matches = DB.filter(p => RELATED_SLUGS.includes(p.id));
-
-  if (!matches.length) {
-    container.innerHTML = `<p class="related-empty">No linked works in database.</p>`;
-    return;
-  }
-
-  container.innerHTML = matches.map(p => `
-    <a class="related-item" href="${p.url || '#'}">
-      <span class="related-type pub-type-${p.type}">
-        ${p.type === "working-paper" ? "WP" : p.type === "conference" ? "Conf" : "Proj"}
-      </span>
-      <span class="related-title">${p.title}</span>
-      <span class="related-year">${p.year || ""}</span>
-    </a>
-  `).join("");
-}
-
-buildRelated();
-
-</script>
-
-{{ end }}
+</div>
+{{- end }}

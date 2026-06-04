@@ -1,0 +1,105 @@
+{{- define "main" }}
+{{- $p := .Params }}
+
+<div class="ab-root pv-page">
+  <div class="pv-container">
+
+    <div class="ab-layout">
+
+      {{/* ── 左：主体叙事 ── */}}
+      <main class="ab-main">
+        <div class="pv-page-header" style="border-bottom:none; padding-bottom: var(--s3);">
+          <p class="t-eyebrow">About</p>
+          <h1 class="t-title" style="margin: var(--s2) 0 var(--s2);">{{ $p.displayName | default .Site.Title }}</h1>
+        </div>
+
+        {{/* Narrative bio */}}
+        <div class="ab-bio">
+          {{ .Content }}
+        </div>
+
+        {{/* Research philosophy */}}
+        {{- with $p.researchPhilosophy }}
+        <div class="ab-block">
+          <h2 class="ab-block-title">Research Philosophy</h2>
+          <blockquote class="ab-quote">{{ . }}</blockquote>
+        </div>
+        {{- end }}
+
+        {{/* Intellectual influences */}}
+        {{- with $p.influences }}
+        <div class="ab-block">
+          <h2 class="ab-block-title">Intellectual Influences</h2>
+          <div class="ab-influences">
+            {{- range . }}
+            <div class="ab-influence-item">
+              <span class="ab-influence-name">{{ .name }}</span>
+              <span class="ab-influence-reason">{{ .reason }}</span>
+            </div>
+            {{- end }}
+          </div>
+        </div>
+        {{- end }}
+
+        {{/* Long-term agenda */}}
+        {{- with $p.agenda }}
+        <div class="ab-block">
+          <h2 class="ab-block-title">Long-term Research Agenda</h2>
+          <ul class="ab-agenda-list">
+            {{- range . }}
+            <li>{{ . }}</li>
+            {{- end }}
+          </ul>
+        </div>
+        {{- end }}
+
+      </main>
+
+      {{/* ── 右：结构化信息卡 ── */}}
+      <aside class="ab-sidebar">
+
+        {{/* Education */}}
+        <div class="ab-card">
+          <h3 class="ab-card-title">Education</h3>
+          {{- range $p.education }}
+          <div class="ab-edu-item">
+            <span class="ab-edu-degree">{{ .degree }}</span>
+            <span class="ab-edu-detail">{{ .institution }}{{ with .years }} · {{ . }}{{ end }}</span>
+          </div>
+          {{- end }}
+        </div>
+
+        {{/* Research Areas */}}
+        <div class="ab-card">
+          <h3 class="ab-card-title">Research Areas</h3>
+          <div class="ab-area-list">
+            {{- range $p.researchAreas }}
+            <a href="{{ .url | relURL }}" class="ab-area-item">
+              <span class="ab-area-name">{{ .name }}</span>
+              <span class="ab-area-arrow">→</span>
+            </a>
+            {{- end }}
+          </div>
+        </div>
+
+        {{/* Contact */}}
+        <div class="ab-card">
+          <h3 class="ab-card-title">Contact & Links</h3>
+          <div class="ab-links">
+            {{- range $p.contactLinks }}
+            <a href="{{ .url }}" class="ab-link" target="_blank" rel="noopener">
+              <span class="ab-link-label">{{ .label }}</span>
+              <span class="ab-link-value">{{ .value }}</span>
+            </a>
+            {{- end }}
+          </div>
+        </div>
+
+      </aside>
+
+    </div>{{/* /ab-layout */}}
+
+  </div>
+</div>
+
+{{- end }}

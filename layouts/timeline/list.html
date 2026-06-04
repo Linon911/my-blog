@@ -1,0 +1,63 @@
+{{- define "main" }}
+{{- $p := .Params }}
+
+<div class="tl-root pv-page">
+  <div class="pv-container">
+
+    {{/* ── 页头 ── */}}
+    <div class="pv-page-header">
+      <p class="t-eyebrow">{{ $p.eyebrow | default "Career" }}</p>
+      <h1 class="t-title" style="margin: var(--s2) 0 var(--s2);">{{ .Title }}</h1>
+      <p class="t-lead">{{ $p.description | default .Description }}</p>
+    </div>
+
+    {{/* ── 时间轴主体 ── */}}
+    <div class="tl-body">
+      {{- range $p.events }}
+      <div class="tl-year-group">
+
+        {{/* 左：年份 + 统计 */}}
+        <div class="tl-year-col">
+          <span class="tl-year">{{ .year }}</span>
+          {{- with .stats }}
+          <div class="tl-year-stats">
+            {{- range . }}
+            <div class="tl-stat">
+              <span class="tl-stat-num">{{ .value }}</span>
+              <span class="tl-stat-label">{{ .label }}</span>
+            </div>
+            {{- end }}
+          </div>
+          {{- end }}
+        </div>
+
+        {{/* 右：事件列 */}}
+        <div class="tl-events-col">
+          {{- range .items }}
+          <div class="tl-event tl-event--{{ .type | default "general" }}">
+            <div class="tl-event-dot"></div>
+            <div class="tl-event-body">
+              <div class="tl-event-header">
+                <span class="tl-event-type">{{ .type | title }}</span>
+                {{- with .date }}<span class="tl-event-date">{{ . }}</span>{{- end }}
+              </div>
+              <p class="tl-event-title">{{ .title }}</p>
+              {{- with .detail }}
+              <p class="tl-event-detail">{{ . }}</p>
+              {{- end }}
+              {{- with .quote }}
+              <blockquote class="tl-event-quote">{{ . }}</blockquote>
+              {{- end }}
+            </div>
+          </div>
+          {{- end }}
+        </div>
+
+      </div>
+      {{- end }}
+    </div>
+
+  </div>
+</div>
+
+{{- end }}

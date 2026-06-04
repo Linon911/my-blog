@@ -1,566 +1,141 @@
-{{ define "main" }}
+{{- define "main" }}
 
-{{ partial "scholar-db.html" . }}
+<div class="pp-root pv-page">
+  <div class="pv-container">
 
-<div class="pub-page">
-
-  <!-- ══ PAGE HEADER ══════════════════════════════════════════ -->
-  <div class="pub-header">
-    <div class="pub-header-left">
-      <span class="pub-eyebrow">Research Output</span>
-      <h1 class="pub-page-title">Publications</h1>
-      <p class="pub-page-sub">Working papers, conference presentations, and ongoing projects.</p>
-    </div>
-    <div class="pub-header-stats" id="stats-bar">
-      <!-- populated by JS -->
-    </div>
-  </div>
-
-  <!-- ══ TOOLBAR ══════════════════════════════════════════════ -->
-  <div class="pub-toolbar">
-
-    <div class="pub-search-wrap">
-      <svg class="pub-search-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
-        <circle cx="8.5" cy="8.5" r="5.5"/>
-        <line x1="13" y1="13" x2="18" y2="18"/>
-      </svg>
-      <input
-        id="pub-search"
-        type="text"
-        class="pub-search-input"
-        placeholder="Search by title, keyword, area…"
-        autocomplete="off"
-        spellcheck="false"
-      >
-      <button class="pub-search-clear" id="search-clear" aria-label="Clear search">×</button>
+    <div class="pv-page-header">
+      <p class="t-eyebrow">Research Output</p>
+      <h1 class="t-title" style="margin: var(--s2) 0 var(--s2);">{{ .Title }}</h1>
+      <p class="t-lead">{{ .Params.description | default "Working papers, conference presentations, and research output." }}</p>
     </div>
 
-    <div class="pub-type-tabs" role="tablist">
-      <button class="pub-tab active" data-type="all" role="tab" aria-selected="true">All</button>
-      <button class="pub-tab" data-type="working-paper" role="tab" aria-selected="false">Working Papers</button>
-      <button class="pub-tab" data-type="conference" role="tab" aria-selected="false">Conference</button>
-      <button class="pub-tab" data-type="project" role="tab" aria-selected="false">Projects</button>
-    </div>
-
-    <div class="pub-view-toggle">
-      <button class="pub-view-btn active" id="view-list" aria-label="List view" title="List view">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="15" height="15">
-          <line x1="2" y1="4" x2="14" y2="4"/><line x1="2" y1="8" x2="14" y2="8"/><line x1="2" y1="12" x2="14" y2="12"/>
-        </svg>
-      </button>
-      <button class="pub-view-btn" id="view-grid" aria-label="Grid view" title="Grid view">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="15" height="15">
-          <rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/>
-          <rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/>
+    <div class="pp-toolbar">
+      <div class="pp-tabs" role="tablist">
+        <button class="pp-tab pp-tab--active" data-filter="all">All</button>
+        <button class="pp-tab" data-filter="working-paper">Working Papers</button>
+        <button class="pp-tab" data-filter="paper">Papers</button>
+        <button class="pp-tab" data-filter="presentation">Presentations</button>
+      </div>
+      <div class="pp-sort">
+        <label class="t-section" style="margin-right:8px">Sort</label>
+        <select class="pp-select" id="pp-sort">
+          <option value="newest">Newest</option>
+          <option value="oldest">Oldest</option>
+        </select>
+      </div>
+      <button class="pp-search-btn" id="pp-search-toggle" aria-label="Search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
         </svg>
       </button>
     </div>
 
-  </div>
-
-  <!-- ══ RESULT COUNT + SORT ══════════════════════════════════ -->
-  <div class="pub-meta-bar">
-    <span class="pub-result-count" id="result-count"></span>
-    <div class="pub-sort">
-      <label for="pub-sort-sel">Sort:</label>
-      <select id="pub-sort-sel">
-        <option value="year-desc">Year (newest)</option>
-        <option value="year-asc">Year (oldest)</option>
-        <option value="title-asc">Title A–Z</option>
-      </select>
+    <div class="pp-search-bar" id="pp-search-bar" style="display:none">
+      <input type="text" class="pp-search-input" id="pp-search-input"
+             placeholder="Search title, keyword, method..." autocomplete="off">
     </div>
-  </div>
 
-  <!-- ══ KEYWORD CLOUD (contextual, appears on search) ════════ -->
-  <div class="pub-keyword-cloud" id="keyword-cloud" aria-live="polite"></div>
+    <div class="pp-list" id="pp-list">
+      {{- $allPubs := where .Site.RegularPages "Section" "publications" }}
+      {{- range $allPubs }}
+      {{- $type     := .Params.pubType | default "paper" }}
+      {{- $typeSlug := $type | lower | replaceRE " " "-" }}
+      {{- $kwStr    := "" }}
+      {{- range .Params.keywords }}{{- $kwStr = printf "%s %s" $kwStr (. | lower) }}{{- end }}
 
-  <!-- ══ MAIN OUTPUT ══════════════════════════════════════════ -->
-  <div id="pub-output" class="pub-list-view">
-    <!-- rendered by JS -->
-  </div>
+      <article class="pp-entry"
+        data-type="{{ $typeSlug }}"
+        data-year="{{ .Date.Year }}"
+        data-title="{{ .Title | lower }}"
+        data-keywords="{{ $kwStr | strings.TrimSpace }}">
 
-  <!-- ══ EMPTY STATE ══════════════════════════════════════════ -->
-  <div id="pub-empty" class="pub-empty" style="display:none">
-    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2" width="42" height="42" opacity=".3">
-      <circle cx="20" cy="20" r="14"/><line x1="30" y1="30" x2="44" y2="44"/>
-      <line x1="14" y1="20" x2="26" y2="20"/><line x1="20" y1="14" x2="20" y2="26"/>
-    </svg>
-    <p>No publications match your query.</p>
-    <button onclick="resetAll()">Clear filters</button>
-  </div>
+        <div class="pp-entry-meta">
+          {{- if eq $typeSlug "working-paper" }}
+          <span class="pv-badge pv-badge--wip">{{ .Params.pubType }}</span>
+          {{- else if eq $typeSlug "presentation" }}
+          <span class="pv-badge pv-badge--blue">{{ .Params.pubType }}</span>
+          {{- else if eq $typeSlug "paper" }}
+          <span class="pv-badge pv-badge--green">{{ .Params.pubType }}</span>
+          {{- else if eq $typeSlug "ongoing-project" }}
+          <span class="pv-badge pv-badge--purple">{{ .Params.pubType }}</span>
+          {{- else }}
+          <span class="pv-badge pv-badge--neutral">{{ .Params.pubType | default "Paper" }}</span>
+          {{- end }}
 
-</div><!-- /pub-page -->
+          {{- with .Params.status }}
+          {{- $st := . | lower }}
+          {{- if eq $st "in progress" }}
+          <span class="pv-badge pv-badge--wip">{{ . }}</span>
+          {{- else if eq $st "submitted" }}
+          <span class="pv-badge pv-badge--submitted">{{ . }}</span>
+          {{- else if eq $st "r&r" }}
+          <span class="pv-badge pv-badge--rr">{{ . }}</span>
+          {{- else if eq $st "published" }}
+          <span class="pv-badge pv-badge--published">{{ . }}</span>
+          {{- else }}
+          <span class="pv-badge pv-badge--draft">{{ . }}</span>
+          {{- end }}
+          {{- end }}
 
-<!-- ══ AI INSIGHT DRAWER ════════════════════════════════════════
-     Slides up when you click "AI Insight" on any card.
-     Calls the Anthropic API client-side.
-═════════════════════════════════════════════════════════════════ -->
-<div class="ai-drawer" id="ai-drawer" role="dialog" aria-modal="true" aria-label="AI Research Insight">
-  <div class="ai-drawer-inner">
-    <div class="ai-drawer-head">
-      <div class="ai-drawer-label">
-        <span class="ai-orb"></span>
-        AI Research Insight
-      </div>
-      <button class="ai-drawer-close" id="ai-drawer-close" aria-label="Close">×</button>
+          <span class="pp-entry-date">{{ .Date.Format "Jan 2006" }}</span>
+          {{- with .Params.pages }}
+          <span class="pp-entry-pages">· {{ . }} pages</span>
+          {{- end }}
+        </div>
+
+        <h2 class="pp-entry-title">
+          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        </h2>
+
+        {{- with .Params.authors }}
+        <p class="pp-entry-authors">{{ delimit . ", " }}</p>
+        {{- end }}
+
+        <div class="pp-entry-footer">
+          <div class="pp-entry-keywords">
+            {{- $kws := .Params.keywords }}
+            {{- if $kws }}
+              {{- range first 4 $kws }}
+              <span class="pv-tag">{{ . }}</span>
+              {{- end }}
+            {{- end }}
+          </div>
+          <div class="pp-entry-actions">
+            <button class="pp-action-btn pp-abstract-toggle">Abstract</button>
+            {{- with .Params.pdf }}
+            <a href="{{ . }}" class="pp-action-btn" target="_blank">PDF</a>
+            {{- end }}
+            <button class="pp-action-btn pp-cite-btn"
+              data-title="{{ .Title }}"
+              data-authors="{{ if .Params.authors }}{{ delimit .Params.authors " and " }}{{ else }}Povaka{{ end }}"
+              data-year="{{ .Date.Year }}"
+              data-type="{{ .Params.pubType | default "Working Paper" }}">BibTeX</button>
+          </div>
+        </div>
+
+        <div class="pp-abstract-body" style="display:none">
+          <p>{{ .Summary }}</p>
+        </div>
+
+        <div class="pp-cite-panel" style="display:none">
+          <div class="pp-cite-tabs">
+            <button class="pp-cite-tab pp-cite-tab--active" data-fmt="bibtex">BibTeX</button>
+            <button class="pp-cite-tab" data-fmt="apa">APA</button>
+            <button class="pp-cite-tab" data-fmt="chicago">Chicago</button>
+          </div>
+          <pre class="pp-cite-code"></pre>
+          <button class="pp-copy-btn">Copy</button>
+        </div>
+
+      </article>
+      {{- end }}
     </div>
-    <div class="ai-drawer-title" id="ai-drawer-paper-title"></div>
-    <div class="ai-drawer-body" id="ai-drawer-body">
-      <div class="ai-thinking">
-        <span></span><span></span><span></span>
-      </div>
-    </div>
-    <div class="ai-drawer-footer">
-      <span class="ai-drawer-note">Generated by Claude · Not a substitute for reading the paper</span>
-    </div>
+
+    <p class="pp-count" id="pp-count"></p>
+
   </div>
 </div>
-<div class="ai-overlay" id="ai-overlay"></div>
 
-<script>
+<script src="/js/publications.js" defer></script>
 
-/* ══════════════════════════════════════════════════════════════
-   DATA & STATE
-══════════════════════════════════════════════════════════════ */
-
-const DB = window.PUB_DB || [];
-
-let state = {
-  query:   "",
-  type:    "all",
-  sort:    "year-desc",
-  view:    "list",   /* "list" | "grid" */
-};
-
-/* ══════════════════════════════════════════════════════════════
-   SEMANTIC EXPANSION
-══════════════════════════════════════════════════════════════ */
-
-const SEMANTIC = {
-  ip:         ["intellectual property","patent","copyright","trade secret"],
-  trade:      ["international trade","wto","export","import","tariff","fta"],
-  innovation: ["technology","r&d","research","endogenous growth","knowledge"],
-  technology: ["tech","transfer","diffusion","spillover"],
-  law:        ["legal","judicial","court","regulation","statute","legislation"],
-  economics:  ["economic","market","incentive","efficiency","welfare"],
-  china:      ["chinese","prc","mainland","reform"],
-};
-
-function expandQuery(q) {
-  if (!q) return [];
-  const words = q.toLowerCase().split(/\s+/);
-  const set = new Set(words);
-  words.forEach(w => (SEMANTIC[w] || []).forEach(t => set.add(t)));
-  return [...set];
-}
-
-/* ══════════════════════════════════════════════════════════════
-   FILTERING & SORTING
-══════════════════════════════════════════════════════════════ */
-
-function getFiltered() {
-  let data = [...DB];
-
-  if (state.type !== "all") {
-    data = data.filter(p => p.type === state.type);
-  }
-
-  if (state.query) {
-    const terms = expandQuery(state.query);
-    data = data.filter(p => {
-      const haystack = [
-        p.title, p.area, p.description, p.summary, p.status, p.type,
-        ...(p.keywords || [])
-      ].join(" ").toLowerCase();
-      return terms.some(t => haystack.includes(t));
-    });
-  }
-
-  /* sort */
-  if (state.sort === "year-desc") data.sort((a,b) => (b.year||0)-(a.year||0));
-  else if (state.sort === "year-asc") data.sort((a,b) => (a.year||0)-(b.year||0));
-  else if (state.sort === "title-asc") data.sort((a,b) => (a.title||"").localeCompare(b.title||""));
-
-  return data;
-}
-
-/* ══════════════════════════════════════════════════════════════
-   BADGE HELPERS
-══════════════════════════════════════════════════════════════ */
-
-const TYPE_LABELS = {
-  "working-paper": "Working Paper",
-  "conference":    "Conference",
-  "project":       "Project",
-};
-
-const STATUS_LABELS = {
-  "draft":     { label: "Draft",      cls: "badge-draft" },
-  "presented": { label: "Presented",  cls: "badge-pub"   },
-  "ongoing":   { label: "Ongoing",    cls: "badge-wp"    },
-  "published": { label: "Published",  cls: "badge-pub"   },
-};
-
-function typeBadge(type) {
-  const label = TYPE_LABELS[type] || type || "Other";
-  return `<span class="pub-type-pill pub-type-${type}">${label}</span>`;
-}
-
-function statusBadge(status) {
-  const s = STATUS_LABELS[status] || { label: status || "Unknown", cls: "badge-draft" };
-  return `<span class="pub-status-pill ${s.cls}">${s.label}</span>`;
-}
-
-function keywordPills(kws) {
-  if (!kws || !kws.length) return "";
-  return kws.slice(0,4).map(k =>
-    `<span class="pub-kw-pill">${k}</span>`
-  ).join("");
-}
-
-/* ══════════════════════════════════════════════════════════════
-   RENDER: LIST VIEW
-══════════════════════════════════════════════════════════════ */
-
-function renderListItem(p, idx) {
-  const hasPDF = p.pdf && p.pdf.length > 0;
-  return `
-  <article class="pub-row" data-id="${p.id || idx}">
-    <div class="pub-row-index">${String(idx+1).padStart(2,"0")}</div>
-    <div class="pub-row-body">
-      <div class="pub-row-meta">
-        ${typeBadge(p.type)}
-        <span class="pub-row-year">${p.year || ""}</span>
-        ${p.area ? `<span class="pub-row-area">${p.area}</span>` : ""}
-        ${statusBadge(p.status)}
-      </div>
-      <h3 class="pub-row-title">
-        <a href="${p.url || "#"}">${p.title || "Untitled"}</a>
-      </h3>
-      <p class="pub-row-desc">${p.summary || p.description || ""}</p>
-      <div class="pub-row-keywords">${keywordPills(p.keywords)}</div>
-      <div class="pub-row-actions">
-        ${hasPDF ? `<a href="${p.pdf}" class="pub-action-link" target="_blank" rel="noopener">
-          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4a1 1 0 011-1h6l3 3v6a1 1 0 01-1 1H4a1 1 0 01-1-1V4z"/><polyline points="9 3 9 7 13 7"/></svg>
-          PDF
-        </a>` : ""}
-        <a href="${p.url || "#"}" class="pub-action-link">
-          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3H3a1 1 0 00-1 1v9a1 1 0 001 1h10a1 1 0 001-1V8"/><path d="M11 1h4v4"/><line x1="6" y1="10" x2="15" y2="1"/></svg>
-          Details
-        </a>
-        <button class="pub-action-link pub-ai-btn" onclick="openAIDrawer(${idx})">
-          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
-          AI Insight
-        </button>
-        <button class="pub-action-link pub-cite-btn" onclick="quickCite(event, ${idx})">
-          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 2h8a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z"/><line x1="5" y1="6" x2="11" y2="6"/><line x1="5" y1="9" x2="9" y2="9"/></svg>
-          Cite
-        </button>
-      </div>
-    </div>
-  </article>`;
-}
-
-/* ══════════════════════════════════════════════════════════════
-   RENDER: GRID VIEW
-══════════════════════════════════════════════════════════════ */
-
-function renderGridCard(p, idx) {
-  const hasPDF = p.pdf && p.pdf.length > 0;
-  return `
-  <article class="pub-card-grid" data-id="${p.id || idx}">
-    <div class="pub-card-top">
-      <div class="pub-card-meta-row">
-        ${typeBadge(p.type)}
-        ${statusBadge(p.status)}
-      </div>
-      <h3 class="pub-card-title">
-        <a href="${p.url || "#"}">${p.title || "Untitled"}</a>
-      </h3>
-      <p class="pub-card-year-area">${p.year || ""}${p.area ? " · " + p.area : ""}</p>
-    </div>
-    <p class="pub-card-desc">${p.summary || p.description || ""}</p>
-    <div class="pub-card-keywords">${keywordPills(p.keywords)}</div>
-    <div class="pub-card-footer">
-      ${hasPDF ? `<a href="${p.pdf}" class="pub-card-pdf" target="_blank" rel="noopener">PDF ↗</a>` : ""}
-      <button class="pub-card-ai" onclick="openAIDrawer(${idx})" title="AI Insight">✦ Insight</button>
-    </div>
-  </article>`;
-}
-
-/* ══════════════════════════════════════════════════════════════
-   RENDER: STATS BAR
-══════════════════════════════════════════════════════════════ */
-
-function renderStats() {
-  const total  = DB.length;
-  const wps    = DB.filter(p => p.type === "working-paper").length;
-  const conf   = DB.filter(p => p.type === "conference").length;
-  const projs  = DB.filter(p => p.type === "project").length;
-  document.getElementById("stats-bar").innerHTML = `
-    <div class="pub-stat"><span class="pub-stat-num">${total}</span><span class="pub-stat-label">Total</span></div>
-    <div class="pub-stat"><span class="pub-stat-num">${wps}</span><span class="pub-stat-label">Working Papers</span></div>
-    <div class="pub-stat"><span class="pub-stat-num">${conf}</span><span class="pub-stat-label">Conference</span></div>
-    <div class="pub-stat"><span class="pub-stat-num">${projs}</span><span class="pub-stat-label">Projects</span></div>
-  `;
-}
-
-/* ══════════════════════════════════════════════════════════════
-   RENDER: KEYWORD CLOUD
-══════════════════════════════════════════════════════════════ */
-
-function renderKeywordCloud(data) {
-  const cloud = document.getElementById("keyword-cloud");
-  if (!state.query) { cloud.innerHTML = ""; return; }
-  const freq = {};
-  data.forEach(p => (p.keywords || []).forEach(k => { freq[k] = (freq[k]||0)+1; }));
-  const sorted = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,10);
-  if (!sorted.length) { cloud.innerHTML = ""; return; }
-  cloud.innerHTML = `<span class="kwc-label">Related keywords:</span>` +
-    sorted.map(([k]) =>
-      `<button class="kwc-pill" onclick="addKeyword('${k.replace(/'/g,"\\'")}')"><span>${k}</span></button>`
-    ).join("");
-}
-
-function addKeyword(kw) {
-  const input = document.getElementById("pub-search");
-  const current = input.value.trim();
-  if (!current.toLowerCase().includes(kw.toLowerCase())) {
-    input.value = current ? current + " " + kw : kw;
-    state.query = input.value.trim();
-    render();
-  }
-}
-
-/* ══════════════════════════════════════════════════════════════
-   MAIN RENDER
-══════════════════════════════════════════════════════════════ */
-
-/* keep a snapshot for the drawer */
-let _lastFiltered = [];
-
-function render() {
-  const data = getFiltered();
-  _lastFiltered = data;
-
-  const output = document.getElementById("pub-output");
-  const empty  = document.getElementById("pub-empty");
-  const counter = document.getElementById("result-count");
-
-  const label = state.query || state.type !== "all"
-    ? `${data.length} of ${DB.length} records`
-    : `${data.length} records`;
-  counter.textContent = label;
-
-  /* clear button */
-  document.getElementById("search-clear").style.display =
-    state.query ? "flex" : "none";
-
-  renderKeywordCloud(data);
-
-  if (!data.length) {
-    output.innerHTML = "";
-    empty.style.display = "flex";
-    return;
-  }
-  empty.style.display = "none";
-
-  if (state.view === "list") {
-    output.className = "pub-list-view";
-    output.innerHTML = data.map((p, i) => renderListItem(p, i)).join("");
-  } else {
-    output.className = "pub-grid-view";
-    output.innerHTML = data.map((p, i) => renderGridCard(p, i)).join("");
-  }
-}
-
-/* ══════════════════════════════════════════════════════════════
-   EVENTS
-══════════════════════════════════════════════════════════════ */
-
-document.getElementById("pub-search").addEventListener("input", e => {
-  state.query = e.target.value.trim();
-  render();
-});
-
-document.getElementById("search-clear").addEventListener("click", () => {
-  document.getElementById("pub-search").value = "";
-  state.query = "";
-  render();
-});
-
-document.querySelectorAll(".pub-tab").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".pub-tab").forEach(b => {
-      b.classList.remove("active");
-      b.setAttribute("aria-selected","false");
-    });
-    btn.classList.add("active");
-    btn.setAttribute("aria-selected","true");
-    state.type = btn.dataset.type;
-    render();
-  });
-});
-
-document.getElementById("pub-sort-sel").addEventListener("change", e => {
-  state.sort = e.target.value;
-  render();
-});
-
-document.getElementById("view-list").addEventListener("click", () => {
-  state.view = "list";
-  document.getElementById("view-list").classList.add("active");
-  document.getElementById("view-grid").classList.remove("active");
-  render();
-});
-
-document.getElementById("view-grid").addEventListener("click", () => {
-  state.view = "grid";
-  document.getElementById("view-grid").classList.add("active");
-  document.getElementById("view-list").classList.remove("active");
-  render();
-});
-
-function resetAll() {
-  document.getElementById("pub-search").value = "";
-  state = { query:"", type:"all", sort:"year-desc", view:state.view };
-  document.querySelectorAll(".pub-tab").forEach(b => {
-    b.classList.remove("active");
-    b.setAttribute("aria-selected","false");
-  });
-  document.querySelector('[data-type="all"]').classList.add("active");
-  document.getElementById("pub-sort-sel").value = "year-desc";
-  render();
-}
-
-/* ══════════════════════════════════════════════════════════════
-   QUICK CITE (popover)
-══════════════════════════════════════════════════════════════ */
-
-function quickCite(evt, idx) {
-  const p = _lastFiltered[idx];
-  if (!p) return;
-  const authors = (p.authors || ["Author"]).join(", ");
-  const apa = `${authors} (${p.year || "n.d."}). ${p.title}. Working Paper.`;
-  const bib = `@article{${(p.id || "paper" + idx)},\n  title={${p.title}},\n  author={${authors}},\n  year={${p.year || ""}}\n}`;
-
-  /* remove old popover */
-  document.querySelectorAll(".cite-popover").forEach(el => el.remove());
-
-  const pop = document.createElement("div");
-  pop.className = "cite-popover";
-  pop.innerHTML = `
-    <div class="cite-pop-head">
-      <span>Citation</span>
-      <button onclick="this.closest('.cite-popover').remove()">×</button>
-    </div>
-    <div class="cite-pop-tabs">
-      <button class="cite-tab active" data-fmt="apa">APA</button>
-      <button class="cite-tab" data-fmt="bib">BibTeX</button>
-    </div>
-    <pre class="cite-pop-text" id="cite-text-${idx}">${apa}</pre>
-    <button class="cite-pop-copy" onclick="copyCite(${idx})">Copy</button>
-  `;
-  pop._apa = apa;
-  pop._bib = bib;
-  pop._idx = idx;
-
-  pop.querySelectorAll(".cite-tab").forEach(t => {
-    t.addEventListener("click", () => {
-      pop.querySelectorAll(".cite-tab").forEach(x => x.classList.remove("active"));
-      t.classList.add("active");
-      document.getElementById("cite-text-"+idx).textContent =
-        t.dataset.fmt === "apa" ? pop._apa : pop._bib;
-    });
-  });
-
-  evt.currentTarget.appendChild(pop);
-  setTimeout(() => document.addEventListener("click", function handler(e) {
-    if (!pop.contains(e.target)) { pop.remove(); document.removeEventListener("click",handler); }
-  }), 10);
-}
-
-function copyCite(idx) {
-  const el = document.getElementById("cite-text-"+idx);
-  if (el) {
-    navigator.clipboard.writeText(el.textContent).then(() => {
-      const btn = el.closest(".cite-popover").querySelector(".cite-pop-copy");
-      if (btn) { btn.textContent = "Copied!"; setTimeout(()=>btn.textContent="Copy",1800); }
-    });
-  }
-}
-
-/* ══════════════════════════════════════════════════════════════
-   AI INSIGHT DRAWER
-══════════════════════════════════════════════════════════════ */
-
-async function openAIDrawer(idx) {
-  const p = _lastFiltered[idx];
-  if (!p) return;
-
-  document.getElementById("ai-drawer-paper-title").textContent = p.title || "";
-  document.getElementById("ai-drawer-body").innerHTML =
-    `<div class="ai-thinking"><span></span><span></span><span></span></div>`;
-
-  document.getElementById("ai-drawer").classList.add("open");
-  document.getElementById("ai-overlay").classList.add("open");
-  document.body.style.overflow = "hidden";
-
-  const prompt = `You are an academic research assistant. Based on the metadata below, provide a concise structured insight for this paper. Use plain text paragraphs (no markdown, no bullet lists). Structure your response as three short sections labelled "Summary:", "Key Contribution:", and "Research Extension:". Each section should be 1-2 sentences.
-
-Paper metadata:
-Title: ${p.title}
-Area: ${p.area || "Law & Economics"}
-Type: ${p.type}
-Status: ${p.status}
-Keywords: ${(p.keywords||[]).join(", ")}
-Summary provided by author: ${p.summary || p.description || "Not provided."}`;
-
-  try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 1000,
-        messages: [{ role: "user", content: prompt }]
-      })
-    });
-    const data = await res.json();
-    const text = (data.content || []).map(b => b.text || "").join("");
-
-    /* format sections */
-    const formatted = text
-      .replace(/Summary:/g,   '<strong class="ai-section-label">Summary</strong>')
-      .replace(/Key Contribution:/g, '<strong class="ai-section-label">Key Contribution</strong>')
-      .replace(/Research Extension:/g, '<strong class="ai-section-label">Research Extension</strong>');
-
-    document.getElementById("ai-drawer-body").innerHTML =
-      `<div class="ai-content">${formatted}</div>`;
-
-  } catch(err) {
-    document.getElementById("ai-drawer-body").innerHTML =
-      `<p class="ai-error">Could not generate insight. Please check your API configuration.</p>`;
-  }
-}
-
-function closeAIDrawer() {
-  document.getElementById("ai-drawer").classList.remove("open");
-  document.getElementById("ai-overlay").classList.remove("open");
-  document.body.style.overflow = "";
-}
-
-document.getElementById("ai-drawer-close").addEventListener("click", closeAIDrawer);
-document.getElementById("ai-overlay").addEventListener("click", closeAIDrawer);
-document.addEventListener("keydown", e => { if (e.key === "Escape") closeAIDrawer(); });
-
-/* ══════════════════════════════════════════════════════════════
-   INIT
-══════════════════════════════════════════════════════════════ */
-
-renderStats();
-render();
-
-</script>
-
-{{ end }}
+{{- end }}

@@ -1,0 +1,187 @@
+{{- define "main" }}
+{{- $p := .Params }}
+
+<div class="cv-root pv-page">
+  <div class="pv-container">
+
+    {{/* ── CV 顶部 ── */}}
+    <div class="cv-header">
+      <div class="cv-header-left">
+        <h1 class="cv-name">{{ $p.cvName | default .Site.Title }}</h1>
+        <p class="cv-title-line">{{ $p.cvTitle | default "" }}</p>
+        <div class="cv-header-links">
+          {{- range $p.academicLinks }}
+          <a href="{{ .url }}" class="cv-header-link" target="_blank" rel="noopener">
+            <span class="cv-header-link-label">{{ .label }}</span>
+          </a>
+          {{- end }}
+        </div>
+      </div>
+      <div class="cv-header-right">
+        {{- with $p.cvPdf }}
+        <a href="{{ . }}" class="pv-btn pv-btn--primary" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download PDF
+        </a>
+        {{- end }}
+      </div>
+    </div>
+
+    {{/* ── 双栏主体 ── */}}
+    <div class="cv-body">
+
+      {{/* ── 左栏 ── */}}
+      <aside class="cv-sidebar">
+
+        {{/* Contact */}}
+        <div class="cv-block">
+          <h3 class="cv-block-title">Contact</h3>
+          {{- range $p.contact }}
+          <div class="cv-contact-item">
+            <span class="cv-contact-label">{{ .label }}</span>
+            {{- if .url }}
+            <a href="{{ .url }}" class="cv-contact-value" target="_blank" rel="noopener">{{ .value }}</a>
+            {{- else }}
+            <span class="cv-contact-value">{{ .value }}</span>
+            {{- end }}
+          </div>
+          {{- end }}
+        </div>
+
+        {{/* Research Interests */}}
+        <div class="cv-block">
+          <h3 class="cv-block-title">Research Interests</h3>
+          <div class="cv-interest-block">
+            <p class="cv-interest-sublabel">Primary</p>
+            <div class="cv-tags">
+              {{- range $p.primaryInterests }}
+              <span class="pv-tag">{{ . }}</span>
+              {{- end }}
+            </div>
+          </div>
+          <div class="cv-interest-block" style="margin-top: var(--s2);">
+            <p class="cv-interest-sublabel">Methods</p>
+            <div class="cv-tags">
+              {{- range $p.methodInterests }}
+              <span class="pv-tag">{{ . }}</span>
+              {{- end }}
+            </div>
+          </div>
+        </div>
+
+        {{/* Software */}}
+        <div class="cv-block">
+          <h3 class="cv-block-title">Software & Tools</h3>
+          {{- range $p.software }}
+          <div class="cv-software-row">
+            <span class="cv-software-cat">{{ .category }}</span>
+            <span class="cv-software-list">{{ delimit .tools ", " }}</span>
+          </div>
+          {{- end }}
+        </div>
+
+        {{/* Languages */}}
+        {{- with $p.languages }}
+        <div class="cv-block">
+          <h3 class="cv-block-title">Languages</h3>
+          {{- range . }}
+          <div class="cv-lang-row">
+            <span class="cv-lang-name">{{ .name }}</span>
+            <span class="cv-lang-level">{{ .level }}</span>
+          </div>
+          {{- end }}
+        </div>
+        {{- end }}
+
+      </aside>
+
+      {{/* ── 右栏 ── */}}
+      <main class="cv-main">
+
+        {{/* Education */}}
+        <section class="cv-section">
+          <h2 class="cv-section-title">Education</h2>
+          {{- range $p.education }}
+          <div class="cv-edu-item">
+            <div class="cv-edu-header">
+              <span class="cv-edu-years">{{ .years }}</span>
+              <span class="cv-edu-degree">{{ .degree }}</span>
+            </div>
+            <p class="cv-edu-institution">{{ .institution }}</p>
+            {{- with .thesis }}
+            <p class="cv-edu-thesis">Thesis: <em>{{ . }}</em></p>
+            {{- end }}
+            {{- with .note }}
+            <p class="cv-edu-note">{{ . }}</p>
+            {{- end }}
+          </div>
+          {{- end }}
+        </section>
+
+        {{/* Publications & Working Papers */}}
+        <section class="cv-section">
+          <h2 class="cv-section-title">Publications & Working Papers</h2>
+          {{- $pubs := where .Site.RegularPages "Section" "publications" }}
+          {{- if $pubs }}
+            {{- range $pubs }}
+            <div class="cv-pub-item">
+              <div class="cv-pub-meta">
+                <span class="pv-badge pv-badge--{{ .Params.pubType | default "paper" | lower | replaceRE " " "-" }}">
+                  {{ .Params.pubType | default "Paper" }}
+                </span>
+                <span class="cv-pub-year">{{ .Date.Year }}</span>
+              </div>
+              <p class="cv-pub-title">
+                {{- if .Params.authors }}{{ delimit .Params.authors ", " }}. {{- end }}
+                "<a href="{{ .RelPermalink }}">{{ .Title }}</a>."
+                {{- with .Params.venue }} {{ . }}.{{- end }}
+                {{- with .Params.status }} <em>{{ . }}.</em>{{- end }}
+              </p>
+            </div>
+            {{- end }}
+          {{- else }}
+          <p class="cv-empty">Working papers in progress.</p>
+          {{- end }}
+        </section>
+
+        {{/* Conference Presentations */}}
+        <section class="cv-section">
+          <h2 class="cv-section-title">Conference Presentations</h2>
+          {{- range $p.presentations }}
+          <div class="cv-pres-item">
+            <span class="cv-pres-year">{{ .year }}</span>
+            <div class="cv-pres-body">
+              <p class="cv-pres-title">"{{ .title }}"</p>
+              <p class="cv-pres-venue">{{ .venue }}</p>
+            </div>
+          </div>
+          {{- end }}
+        </section>
+
+        {{/* Awards & Grants */}}
+        {{- with $p.awards }}
+        <section class="cv-section">
+          <h2 class="cv-section-title">Awards & Grants</h2>
+          {{- range . }}
+          <div class="cv-award-item">
+            <span class="cv-award-year">{{ .year }}</span>
+            <div class="cv-award-body">
+              <p class="cv-award-name">{{ .name }}</p>
+              {{- with .detail }}<p class="cv-award-detail">{{ . }}</p>{{- end }}
+            </div>
+          </div>
+          {{- end }}
+        </section>
+        {{- end }}
+
+      </main>
+    </div>{{/* /cv-body */}}
+
+  </div>
+</div>
+
+{{- end }}

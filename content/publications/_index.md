@@ -1,7 +1,4 @@
 ---
 title: "Publications"
-build:
-  list: never
-  render: never
+description: "Working papers, conference presentations, and ongoing projects."
 ---
-# Publications
