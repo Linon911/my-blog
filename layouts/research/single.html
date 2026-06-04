@@ -1,0 +1,105 @@
+{{- define "main" }}
+{{- $p := .Params }}
+
+<div class="rs2-root pv-page">
+  <div class="pv-container">
+    <div class="rs2-layout">
+
+      <main class="rs2-main">
+
+        <nav class="rs2-breadcrumb">
+          <a href="/research/">Research</a>
+          <span>›</span>
+          <span>{{ .Title }}</span>
+        </nav>
+
+        <div class="rs2-header">
+          <p class="t-eyebrow">{{ $p.researchArea | default "Research Area" }}</p>
+          <h1 class="rs2-title">{{ .Title }}</h1>
+          {{- with $p.subtitle }}
+          <p class="rs2-subtitle">{{ . }}</p>
+          {{- end }}
+        </div>
+
+        <div class="rs2-content">
+          {{ .Content }}
+        </div>
+
+        {{- with $p.questions }}
+        <div class="rs2-section">
+          <h2 class="rs2-section-title">Research Questions</h2>
+          <ul class="rs2-list">
+            {{- range . }}<li>{{ . }}</li>{{- end }}
+          </ul>
+        </div>
+        {{- end }}
+
+        {{- with $p.methods }}
+        <div class="rs2-section">
+          <h2 class="rs2-section-title">Methods</h2>
+          <div class="rs2-tags">
+            {{- range . }}<span class="pv-tag">{{ . }}</span>{{- end }}
+          </div>
+        </div>
+        {{- end }}
+
+      </main>
+
+      <aside class="rs2-sidebar">
+
+        {{/* Related publications pulled from site */}}
+        <div class="rs2-sidebar-card">
+          <h3 class="rs2-sidebar-title">Related Publications</h3>
+          <div class="rs2-related">
+            {{- $area := .Title | lower }}
+            {{- $pubs := where .Site.RegularPages "Section" "publications" }}
+            {{- $found := 0 }}
+            {{- range $pubs }}
+              {{- $kwStr := "" }}
+              {{- range .Params.keywords }}{{- $kwStr = printf "%s %s" $kwStr (. | lower) }}{{- end }}
+              {{- if or (strings.Contains $kwStr $area) (strings.Contains (.Title | lower) $area) }}
+                {{- if lt $found 5 }}
+                <a href="{{ .RelPermalink }}" class="rs2-related-item">
+                  <span class="rs2-rel-type">{{ .Params.pubType | default "Paper" }}</span>
+                  <span class="rs2-rel-title">{{ .Title }}</span>
+                </a>
+                {{- $found = add $found 1 }}
+                {{- end }}
+              {{- end }}
+            {{- end }}
+            {{- if eq $found 0 }}
+            <p class="rs2-empty">No publications yet in this area.</p>
+            {{- end }}
+          </div>
+        </div>
+
+        {{/* Tags */}}
+        {{- with $p.tags }}
+        <div class="rs2-sidebar-card">
+          <h3 class="rs2-sidebar-title">Keywords</h3>
+          <div class="rs2-tags">
+            {{- range . }}<span class="pv-tag">{{ . }}</span>{{- end }}
+          </div>
+        </div>
+        {{- end }}
+
+        {{/* Other research areas */}}
+        <div class="rs2-sidebar-card">
+          <h3 class="rs2-sidebar-title">Other Areas</h3>
+          <div class="rs2-other-areas">
+            {{- $research := where .Site.RegularPages "Section" "research" }}
+            {{- range $research }}
+            {{- if ne .Title $.Title }}
+            <a href="{{ .RelPermalink }}" class="rs2-area-link">{{ .Title }}</a>
+            {{- end }}
+            {{- end }}
+          </div>
+        </div>
+
+      </aside>
+
+    </div>
+  </div>
+</div>
+
+{{- end }}

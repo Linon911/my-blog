@@ -1,0 +1,116 @@
+{{- define "main" }}
+{{- $p := .Params }}
+
+<div class="ns-root pv-page">
+  <div class="pv-container">
+    <div class="ns-layout">
+
+      {{/* ══ 主体 ══ */}}
+      <main class="ns-main">
+
+        <nav class="ns-breadcrumb">
+          <a href="/notes/">Notes</a>
+          <span>›</span>
+          <span>{{ .Title }}</span>
+        </nav>
+
+        <div class="ns-header">
+          <div class="ns-header-meta">
+            <span class="ns-date">{{ .Date.Format "January 2, 2006" }}</span>
+            <span class="ns-sep">·</span>
+            <span class="ns-read">{{ div (len .Content) 1000 | add 1 }} min read</span>
+          </div>
+          <h1 class="ns-title">{{ .Title }}</h1>
+          <div class="ns-tags">
+            {{- range $p.tags }}
+            <a href="/tags/{{ . | urlize }}/" class="pv-tag">{{ . }}</a>
+            {{- end }}
+          </div>
+        </div>
+
+        <div class="ns-content">
+          {{ .Content }}
+        </div>
+
+        {{/* 底部导航 */}}
+        <div class="ns-nav">
+          {{- with .PrevInSection }}
+          <a href="{{ .RelPermalink }}" class="ns-nav-item ns-nav-prev">
+            <span class="ns-nav-label">← Previous</span>
+            <span class="ns-nav-title">{{ .Title }}</span>
+          </a>
+          {{- end }}
+          {{- with .NextInSection }}
+          <a href="{{ .RelPermalink }}" class="ns-nav-item ns-nav-next">
+            <span class="ns-nav-label">Next →</span>
+            <span class="ns-nav-title">{{ .Title }}</span>
+          </a>
+          {{- end }}
+        </div>
+
+      </main>
+
+      {{/* ══ 侧边栏 ══ */}}
+      <aside class="ns-sidebar">
+
+        <div class="ns-sidebar-card">
+          <h3 class="ns-sidebar-title">About this note</h3>
+          <div class="ns-details">
+            <div class="ns-detail-row">
+              <span class="ns-detail-label">Published</span>
+              <span class="ns-detail-val">{{ .Date.Format "Jan 2006" }}</span>
+            </div>
+            <div class="ns-detail-row">
+              <span class="ns-detail-label">Reading time</span>
+              <span class="ns-detail-val">{{ div (len .Content) 1000 | add 1 }} min</span>
+            </div>
+            {{- with $p.lastmod }}
+            <div class="ns-detail-row">
+              <span class="ns-detail-label">Updated</span>
+              <span class="ns-detail-val">{{ . }}</span>
+            </div>
+            {{- end }}
+          </div>
+        </div>
+
+        {{- with $p.relatedPublications }}
+        <div class="ns-sidebar-card">
+          <h3 class="ns-sidebar-title">Related Research</h3>
+          <div class="ns-related">
+            {{- range . }}
+            <a href="{{ .url | relURL }}" class="ns-related-item">{{ .title }}</a>
+            {{- end }}
+          </div>
+        </div>
+        {{- end }}
+
+        {{- with $p.relatedReading }}
+        <div class="ns-sidebar-card">
+          <h3 class="ns-sidebar-title">Related Reading</h3>
+          <div class="ns-related">
+            {{- range . }}
+            <a href="{{ .url | relURL }}" class="ns-related-item">{{ .title }}</a>
+            {{- end }}
+          </div>
+        </div>
+        {{- end }}
+
+        <div class="ns-sidebar-card">
+          <h3 class="ns-sidebar-title">More Notes</h3>
+          <div class="ns-more-notes">
+            {{- $notes := where .Site.RegularPages "Section" "notes" }}
+            {{- range first 4 $notes }}
+            {{- if ne .Title $.Title }}
+            <a href="{{ .RelPermalink }}" class="ns-more-item">{{ .Title }}</a>
+            {{- end }}
+            {{- end }}
+          </div>
+        </div>
+
+      </aside>
+
+    </div>
+  </div>
+</div>
+
+{{- end }}

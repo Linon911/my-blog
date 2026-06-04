@@ -1,116 +1,94 @@
-baseURL = "https://linon9ll.github.io/"
-locale = "en-US"
+baseURL = "https://povaka.com/"
+languageCode = "en-us"
 title = "Povaka"
 theme = "PaperMod"
-paginate = 10
+paginate = 20
 enableRobotsTXT = true
 buildDrafts = false
 buildFuture = false
-buildExpired = false
-enableEmoji = true
+
+[params]
+  description = "Researcher in International Trade, Intellectual Property, and Law & Economics."
+  author = "Povaka"
+  DateFormat = "January 2006"
+  defaultTheme = "light"
+  disableThemeToggle = false
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowPostNavLinks = false
+  ShowBreadCrumbs = false
+  ShowCodeCopyButtons = true
+  ShowWordCount = false
+  ShowRssButtonInSectionTermList = false
+  UseHugoToc = false
+  disableSpecial1stPost = true
+  disableScrollToTop = false
+  comments = false
+  hidemeta = true
+  hideSummary = false
+  showtoc = false
+  tocopen = false
+
+  # Disable PaperMod's default home info
+  [params.homeInfoParams]
+    Title = ""
+    Content = ""
+
+  # Social links (used in footer etc.)
+  [[params.socialIcons]]
+    name = "github"
+    url  = "https://github.com/Linon911"
+  [[params.socialIcons]]
+    name = "email"
+    url  = "mailto:even86400@gmail.com"
+
+[menu]
+  [[menu.main]]
+    identifier = "research"
+    name = "Research"
+    url  = "/research/"
+    weight = 10
+  [[menu.main]]
+    identifier = "publications"
+    name = "Publications"
+    url  = "/publications/"
+    weight = 20
+  [[menu.main]]
+    identifier = "notes"
+    name = "Notes"
+    url  = "/notes/"
+    weight = 30
+  [[menu.main]]
+    identifier = "reading"
+    name = "Reading"
+    url  = "/reading/"
+    weight = 40
+  [[menu.main]]
+    identifier = "timeline"
+    name = "Timeline"
+    url  = "/timeline/"
+    weight = 50
+  [[menu.main]]
+    identifier = "cv"
+    name = "CV"
+    url  = "/cv/"
+    weight = 60
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    url  = "/about/"
+    weight = 70
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
 
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
   [markup.highlight]
-    style = "dracula"
-    lineNos = false
-    guessSyntax = true
+    noClasses = false
+    style = "github"
 
 [minify]
   disableXML = true
-  minifyOutput = true
-
-[params]
-  env           = "production"
-  title         = "Povaka"
-  description   = "Researcher in International Trade, Intellectual Property & Law and Economics."
-  author        = "Povaka"
-  DateFormat    = "2006"
-  defaultTheme  = "auto"
-  disableThemeToggle = false
-
-  # PaperMod display
-  ShowReadingTime       = false
-  ShowShareButtons      = false
-  ShowPostNavLinks      = true
-  ShowBreadCrumbs       = false
-  ShowCodeCopyButtons   = true
-  ShowWordCount         = false
-  ShowRssButtonInSectionTermList = false
-  UseHugoToc            = true
-  disableScrollToTop    = false
-  comments              = false
-  hidemeta              = true
-  hideSummary           = true
-  showtoc               = true
-  tocopen               = false
-
-  # Open Graph / Twitter Card
-  images = ["/images/og-card.png"]
-
-  [params.homeInfoParams]
-    Title   = "Povaka"
-    Content = "International Trade · Intellectual Property · Law & Economics"
-
-  [[params.socialIcons]]
-    name = "github"
-    url  = "https://github.com/Linon9ll"
-
-  [[params.socialIcons]]
-    name = "email"
-    url  = "mailto:your@email.com"
-
-  # MathJax
-  [params.math]
-    enable = true
-
-  # Schema.org
-  [params.schema]
-    publisherType = "Person"
-
-[taxonomies]
-  tag      = "tags"
-  category = "categories"
-  area     = "areas"
-
-[menu]
-  [[menu.main]]
-    identifier = "research"
-    name       = "Research"
-    url        = "/research/"
-    weight     = 10
-  [[menu.main]]
-    identifier = "publications"
-    name       = "Publications"
-    url        = "/publications/"
-    weight     = 20
-  [[menu.main]]
-    identifier = "notes"
-    name       = "Notes"
-    url        = "/notes/"
-    weight     = 30
-  [[menu.main]]
-    identifier = "reading"
-    name       = "Reading"
-    url        = "/reading/"
-    weight     = 40
-  [[menu.main]]
-    identifier = "timeline"
-    name       = "Timeline"
-    url        = "/timeline/"
-    weight     = 50
-  [[menu.main]]
-    identifier = "cv"
-    name       = "CV"
-    url        = "/cv/"
-    weight     = 60
-  [[menu.main]]
-    identifier = "about"
-    name       = "About"
-    url        = "/about/"
-    weight     = 70
-
-[outputs]
-  home = ["HTML", "RSS", "JSON"]

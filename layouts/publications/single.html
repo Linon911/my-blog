@@ -1,81 +1,178 @@
 {{- define "main" }}
-<div class="pub-single-wrap">
+{{- $p := .Params }}
 
-  <a href="/publications/" class="pub-back-link">
-    ← Publications
-  </a>
+<div class="ps-root pv-page">
+  <div class="pv-container">
+    <div class="ps-layout">
 
-  <div class="pub-single-header">
-    <div class="pub-single-meta">
-      {{- with .Params.kind }}
-        {{- $cls := "badge badge-wp" }}
-        {{- if eq . "conference" }}{{- $cls = "badge badge-cf" }}{{- end }}
-        {{- if eq . "project"    }}{{- $cls = "badge badge-pr" }}{{- end }}
-        <span class="{{ $cls }}">{{ $.Params.status | default "Working Paper" }}</span>
-      {{- end }}
-      <span class="pub-year">{{ .Params.year | default 2026 }}</span>
-      {{- with .Params.area }}<span class="pub-area-tag">{{ . }}</span>{{- end }}
+      {{/* ══ 左：论文主体 ══ */}}
+      <main class="ps-main">
+
+        <nav class="ps-breadcrumb">
+          <a href="/publications/">Publications</a>
+          <span>›</span>
+          <span>{{ $p.pubType | default "Paper" }}</span>
+        </nav>
+
+        <div class="ps-header">
+          <div class="ps-header-badges">
+            {{- $typeSlug := $p.pubType | default "paper" | lower | replaceRE " " "-" }}
+            {{- if eq $typeSlug "working-paper" }}
+            <span class="pv-badge pv-badge--wip">{{ $p.pubType }}</span>
+            {{- else if eq $typeSlug "presentation" }}
+            <span class="pv-badge pv-badge--blue">{{ $p.pubType }}</span>
+            {{- else }}
+            <span class="pv-badge pv-badge--green">{{ $p.pubType | default "Paper" }}</span>
+            {{- end }}
+            {{- with $p.status }}
+            {{- $st := . | lower }}
+            {{- if eq $st "in progress" }}<span class="pv-badge pv-badge--wip">{{ . }}</span>
+            {{- else if eq $st "submitted" }}<span class="pv-badge pv-badge--submitted">{{ . }}</span>
+            {{- else if eq $st "r&r" }}<span class="pv-badge pv-badge--rr">{{ . }}</span>
+            {{- else if eq $st "published" }}<span class="pv-badge pv-badge--published">{{ . }}</span>
+            {{- else }}<span class="pv-badge pv-badge--draft">{{ . }}</span>
+            {{- end }}
+            {{- end }}
+          </div>
+
+          <h1 class="ps-title">{{ .Title }}</h1>
+
+          {{- with $p.authors }}
+          <p class="ps-authors">{{ delimit . " · " }}</p>
+          {{- end }}
+
+          <div class="ps-meta-row">
+            {{- with .Date }}<span class="ps-meta-item">{{ .Format "January 2006" }}</span>{{- end }}
+            {{- with $p.pages }}<span class="ps-meta-sep">·</span><span class="ps-meta-item">{{ . }} pages</span>{{- end }}
+            {{- with $p.venue }}<span class="ps-meta-sep">·</span><span class="ps-meta-item">{{ . }}</span>{{- end }}
+          </div>
+        </div>
+
+        {{- with $p.abstract }}
+        <section class="ps-section">
+          <h2 class="ps-section-title">Abstract</h2>
+          <div class="ps-abstract">{{ . }}</div>
+        </section>
+        {{- end }}
+
+        {{- with .Content }}
+        <section class="ps-section">
+          <div class="ps-content">{{ . }}</div>
+        </section>
+        {{- end }}
+
+        {{- with $p.keywords }}
+        <section class="ps-section">
+          <h2 class="ps-section-title">Keywords</h2>
+          <div class="ps-keywords">
+            {{- range . }}<span class="pv-tag">{{ . }}</span>{{- end }}
+          </div>
+        </section>
+        {{- end }}
+
+        {{- with $p.methods }}
+        <section class="ps-section">
+          <h2 class="ps-section-title">Methods</h2>
+          <div class="ps-methods">
+            {{- range . }}<span class="pv-tag">{{ . }}</span>{{- end }}
+          </div>
+        </section>
+        {{- end }}
+
+        {{/* Citation panel — data passed via hidden element */}}
+        <section class="ps-section">
+          <h2 class="ps-section-title">Cite this work</h2>
+          {{- $authStr := "Povaka" }}
+          {{- with $p.authors }}{{- $authStr = delimit . " and " }}{{- end }}
+          <div id="ps-cite-data"
+            data-title="{{ .Title }}"
+            data-authors="{{ $authStr }}"
+            data-year="{{ .Date.Year }}"
+            data-ptype="{{ $p.pubType | default "Working Paper" }}"
+            style="display:none">
+          </div>
+          <div class="ps-cite-box">
+            <div class="ps-cite-tabs">
+              <button class="ps-cite-tab ps-cite-tab--active" data-fmt="bibtex">BibTeX</button>
+              <button class="ps-cite-tab" data-fmt="apa">APA</button>
+              <button class="ps-cite-tab" data-fmt="chicago">Chicago</button>
+            </div>
+            <pre class="ps-cite-pre" id="ps-cite-output"></pre>
+            <button class="ps-cite-copy" id="ps-cite-copy">Copy citation</button>
+          </div>
+        </section>
+
+      </main>
+
+      {{/* ══ 右：侧边栏 ══ */}}
+      <aside class="ps-sidebar">
+
+        <div class="ps-sidebar-card">
+          <h3 class="ps-sidebar-title">Access</h3>
+          <div class="ps-actions">
+            {{- with $p.pdf }}
+            <a href="{{ . }}" class="ps-action-btn ps-action-btn--primary" target="_blank">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Download PDF
+            </a>
+            {{- else }}
+            <span class="ps-action-unavail">PDF not yet available</span>
+            {{- end }}
+            {{- with $p.slides }}<a href="{{ . }}" class="ps-action-btn" target="_blank">Slides</a>{{- end }}
+            {{- with $p.code   }}<a href="{{ . }}" class="ps-action-btn" target="_blank">Code</a>{{- end }}
+            {{- with $p.data   }}<a href="{{ . }}" class="ps-action-btn" target="_blank">Data</a>{{- end }}
+          </div>
+        </div>
+
+        <div class="ps-sidebar-card">
+          <h3 class="ps-sidebar-title">Details</h3>
+          <div class="ps-details">
+            <div class="ps-detail-row">
+              <span class="ps-detail-label">Type</span>
+              <span class="ps-detail-value">{{ $p.pubType | default "Paper" }}</span>
+            </div>
+            <div class="ps-detail-row">
+              <span class="ps-detail-label">Status</span>
+              <span class="ps-detail-value">{{ $p.status | default "—" }}</span>
+            </div>
+            <div class="ps-detail-row">
+              <span class="ps-detail-label">Date</span>
+              <span class="ps-detail-value">{{ .Date.Format "January 2006" }}</span>
+            </div>
+            {{- with $p.pages }}
+            <div class="ps-detail-row">
+              <span class="ps-detail-label">Pages</span>
+              <span class="ps-detail-value">{{ . }}</span>
+            </div>
+            {{- end }}
+            {{- with $p.jel }}
+            <div class="ps-detail-row">
+              <span class="ps-detail-label">JEL</span>
+              <span class="ps-detail-value">{{ delimit . ", " }}</span>
+            </div>
+            {{- end }}
+          </div>
+        </div>
+
+        {{- with $p.keywords }}
+        <div class="ps-sidebar-card">
+          <h3 class="ps-sidebar-title">Keywords</h3>
+          <div class="ps-related-tags">
+            {{- range . }}<span class="pv-tag">{{ . }}</span>{{- end }}
+          </div>
+        </div>
+        {{- end }}
+
+      </aside>
+
     </div>
-
-    <h1 class="pub-single-title">{{ .Title }}</h1>
-
-    {{- with .Params.abstract }}
-    <blockquote class="pub-single-abstract">{{ . }}</blockquote>
-    {{- end }}
-
-    {{- with .Params.coauthors }}
-    <p style="font-family:var(--f-ui);font-size:.82rem;color:var(--ink-4);margin-top:1rem;">
-      With: {{ delimit . ", " }}
-    </p>
-    {{- end }}
-
-    {{- with .Params.links }}
-    <div class="pub-links" style="margin-top:1.5rem;">
-      {{- range . }}
-      <a class="pub-link-btn" href="{{ .url }}" target="_blank" rel="noopener">{{ .label }} ↗</a>
-      {{- end }}
-    </div>
-    {{- end }}
-
-    {{- with .Params.keywords }}
-    <div style="margin-top:1.25rem;display:flex;flex-wrap:wrap;gap:.35rem;">
-      {{- range . }}
-      <span style="font-family:var(--f-mono);font-size:.65rem;padding:.2em .55em;background:var(--paper-3);color:var(--ink-4);border-radius:4px;letter-spacing:.06em;text-transform:uppercase;">{{ . }}</span>
-      {{- end }}
-    </div>
-    {{- end }}
   </div>
-
-  {{- if .Content }}
-  <div class="post-content">
-    {{ .Content }}
-  </div>
-  {{- end }}
-
-  {{- /* Related publications by area */ -}}
-  {{- $area := .Params.area | default "" }}
-  {{- $current := . }}
-  {{- if $area }}
-  {{- $related := slice }}
-  {{- range .Site.Pages }}
-    {{- if and (eq .Type "publications") (not .IsSection) (ne .Permalink $current.Permalink) }}
-      {{- if eq (.Params.area | default "") $area }}
-        {{- $related = $related | append . }}
-      {{- end }}
-    {{- end }}
-  {{- end }}
-  {{- if $related }}
-  <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid var(--rule);">
-    <p style="font-family:var(--f-mono);font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-4);margin-bottom:1rem;">Related Research</p>
-    {{- range first 3 $related }}
-    <div style="margin-bottom:.75rem;">
-      <a href="{{ .RelPermalink }}" style="font-family:var(--f-display);font-size:.92rem;font-weight:500;color:var(--ink);text-decoration:none;transition:color .14s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--ink)'">{{ .Title }}</a>
-      <span style="font-family:var(--f-mono);font-size:.68rem;color:var(--ink-4);margin-left:.5rem;">{{ .Params.year | default 2026 }}</span>
-    </div>
-    {{- end }}
-  </div>
-  {{- end }}
-  {{- end }}
-
 </div>
+
+<script src="/js/publication-single.js" defer></script>
+
 {{- end }}

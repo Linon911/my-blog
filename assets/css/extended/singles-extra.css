@@ -1,0 +1,348 @@
+/* ═══════════════════════════════════════════════════════════════
+   POVAKA — Singles & Polish CSS
+   File: assets/css/extended/singles-extra.css
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ══════════════════════════════════════════════════════════════
+   NOTES SINGLE PAGE
+══════════════════════════════════════════════════════════════ */
+
+.ns-root .ns-layout {
+  display: grid !important;
+  grid-template-columns: 1fr 240px !important;
+  gap: var(--s5) !important;
+  align-items: start;
+  padding-top: var(--s4);
+}
+
+.ns-root .ns-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-xs);
+  color: var(--text-3);
+  margin-bottom: var(--s4);
+}
+.ns-root .ns-breadcrumb a { color: var(--rose); text-decoration: none; }
+.ns-root .ns-breadcrumb a:hover { opacity: 0.7; }
+
+.ns-root .ns-header { margin-bottom: var(--s4); }
+
+.ns-root .ns-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: var(--s2);
+}
+.ns-root .ns-date, .ns-root .ns-read {
+  font-size: var(--text-xs);
+  color: var(--text-3);
+  font-family: var(--font-mono);
+}
+.ns-root .ns-sep { color: var(--line-2); }
+
+.ns-root .ns-title {
+  font-family: var(--font-serif) !important;
+  font-size: clamp(var(--text-xl), 4vw, var(--text-3xl)) !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.015em !important;
+  color: var(--text) !important;
+  margin: 0 0 var(--s2) !important;
+  padding: 0 !important;
+}
+
+.ns-root .ns-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+
+/* Content typography */
+.ns-root .ns-content {
+  font-size: var(--text-md);
+  line-height: 1.85;
+  color: var(--text-2);
+}
+.ns-root .ns-content p          { margin: 0 0 var(--s3); }
+.ns-root .ns-content h2 {
+  font-family: var(--font-serif) !important;
+  font-size: var(--text-xl) !important;
+  font-weight: 700 !important;
+  color: var(--text) !important;
+  margin: var(--s5) 0 var(--s2) !important;
+  padding: 0 !important;
+  letter-spacing: -0.01em !important;
+}
+.ns-root .ns-content h3 {
+  font-family: var(--font-serif) !important;
+  font-size: var(--text-lg) !important;
+  font-weight: 700 !important;
+  color: var(--text) !important;
+  margin: var(--s4) 0 var(--s2) !important;
+  padding: 0 !important;
+}
+.ns-root .ns-content blockquote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  border-left: 2px solid var(--rose-mid);
+  padding-left: var(--s3);
+  margin: var(--s3) 0;
+  color: var(--text-3);
+}
+.ns-root .ns-content strong { color: var(--text); font-weight: 500; }
+.ns-root .ns-content a { color: var(--rose); text-decoration: underline; text-underline-offset: 3px; }
+.ns-root .ns-content code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: var(--bg-3);
+  border: 0.5px solid var(--line);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.ns-root .ns-content ul, .ns-root .ns-content ol {
+  padding-left: var(--s3);
+  margin: 0 0 var(--s3);
+}
+.ns-root .ns-content li { margin-bottom: 6px; line-height: 1.7; }
+
+/* Bottom nav */
+.ns-root .ns-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s3);
+  margin-top: var(--s5);
+  padding-top: var(--s4);
+  border-top: 0.5px solid var(--line);
+}
+.ns-root .ns-nav-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-decoration: none;
+  padding: var(--s2);
+  border: 0.5px solid var(--line);
+  border-radius: var(--radius);
+  transition: all var(--dur);
+}
+.ns-root .ns-nav-item:hover { background: var(--bg-2); border-color: var(--line-2); }
+.ns-root .ns-nav-next { text-align: right; }
+.ns-root .ns-nav-label { font-size: var(--text-xs); color: var(--text-3); }
+.ns-root .ns-nav-title {
+  font-family: var(--font-serif);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.35;
+}
+
+/* Sidebar */
+.ns-root .ns-sidebar {
+  position: sticky;
+  top: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+.ns-root .ns-sidebar-card {
+  background: var(--bg-2);
+  border: 0.5px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--s3);
+}
+.ns-root .ns-sidebar-title {
+  font-size: var(--text-xs) !important;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin: 0 0 var(--s2) !important;
+  padding-bottom: var(--s2);
+  border-bottom: 0.5px solid var(--line);
+}
+.ns-root .ns-details { display: flex; flex-direction: column; }
+.ns-root .ns-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 5px 0;
+  border-bottom: 0.5px solid var(--line);
+  gap: var(--s2);
+}
+.ns-root .ns-detail-row:last-child { border-bottom: none; }
+.ns-root .ns-detail-label { font-size: var(--text-xs); color: var(--text-3); }
+.ns-root .ns-detail-val   { font-size: var(--text-xs); color: var(--text-2); font-family: var(--font-mono); }
+
+.ns-root .ns-related, .ns-root .ns-more-notes {
+  display: flex; flex-direction: column; gap: 2px;
+}
+.ns-root .ns-related-item, .ns-root .ns-more-item {
+  font-size: var(--text-sm);
+  color: var(--rose);
+  text-decoration: none;
+  padding: 4px 0;
+  border-bottom: 0.5px solid var(--line);
+  line-height: 1.4;
+  transition: opacity var(--dur);
+}
+.ns-root .ns-related-item:last-child,
+.ns-root .ns-more-item:last-child { border-bottom: none; }
+.ns-root .ns-related-item:hover,
+.ns-root .ns-more-item:hover { opacity: 0.7; }
+
+/* ══════════════════════════════════════════════════════════════
+   RESEARCH SINGLE PAGE
+══════════════════════════════════════════════════════════════ */
+
+.rs2-root .rs2-layout {
+  display: grid !important;
+  grid-template-columns: 1fr 240px !important;
+  gap: var(--s5) !important;
+  align-items: start;
+  padding-top: var(--s4);
+}
+
+.rs2-root .rs2-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-xs);
+  color: var(--text-3);
+  margin-bottom: var(--s4);
+}
+.rs2-root .rs2-breadcrumb a { color: var(--rose); text-decoration: none; }
+
+.rs2-root .rs2-header { margin-bottom: var(--s4); }
+
+.rs2-root .rs2-title {
+  font-family: var(--font-serif) !important;
+  font-size: clamp(var(--text-xl), 4vw, var(--text-3xl)) !important;
+  font-weight: 700 !important;
+  line-height: 1.15 !important;
+  letter-spacing: -0.015em !important;
+  color: var(--text) !important;
+  margin: var(--s2) 0 !important;
+  padding: 0 !important;
+}
+
+.rs2-root .rs2-subtitle {
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--text-2);
+  margin: 0;
+}
+
+.rs2-root .rs2-content {
+  font-size: var(--text-md);
+  line-height: 1.85;
+  color: var(--text-2);
+  margin-bottom: var(--s4);
+}
+.rs2-root .rs2-content p { margin: 0 0 var(--s3); }
+.rs2-root .rs2-content h2 {
+  font-family: var(--font-serif) !important;
+  font-size: var(--text-xl) !important;
+  font-weight: 700 !important;
+  color: var(--text) !important;
+  margin: var(--s4) 0 var(--s2) !important;
+  padding: 0 !important;
+}
+.rs2-root .rs2-content strong { color: var(--text); font-weight: 500; }
+.rs2-root .rs2-content a { color: var(--rose); text-decoration: underline; text-underline-offset: 3px; }
+
+.rs2-root .rs2-section { margin-bottom: var(--s4); }
+.rs2-root .rs2-section-title {
+  font-size: var(--text-xs) !important;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin: 0 0 var(--s2) !important;
+  padding-bottom: var(--s2);
+  border-bottom: 0.5px solid var(--line);
+}
+.rs2-root .rs2-list {
+  padding-left: var(--s3); margin: 0;
+  display: flex; flex-direction: column; gap: var(--s2);
+}
+.rs2-root .rs2-list li {
+  font-size: var(--text-sm); line-height: 1.7; color: var(--text-2);
+}
+.rs2-root .rs2-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* Sidebar */
+.rs2-root .rs2-sidebar {
+  position: sticky; top: 80px;
+  display: flex; flex-direction: column; gap: var(--s3);
+}
+.rs2-root .rs2-sidebar-card {
+  background: var(--bg-2);
+  border: 0.5px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--s3);
+}
+.rs2-root .rs2-sidebar-title {
+  font-size: var(--text-xs) !important;
+  font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-3); margin: 0 0 var(--s2) !important;
+  padding-bottom: var(--s2); border-bottom: 0.5px solid var(--line);
+}
+.rs2-root .rs2-related { display: flex; flex-direction: column; gap: 2px; }
+.rs2-root .rs2-related-item {
+  display: flex; flex-direction: column; gap: 2px;
+  text-decoration: none; padding: 6px 0;
+  border-bottom: 0.5px solid var(--line);
+  transition: opacity var(--dur);
+}
+.rs2-root .rs2-related-item:last-child { border-bottom: none; }
+.rs2-root .rs2-related-item:hover { opacity: 0.7; }
+.rs2-root .rs2-rel-type {
+  font-size: 0.62rem; font-weight: 500; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--rose-mid);
+}
+.rs2-root .rs2-rel-title {
+  font-size: var(--text-sm); color: var(--text); line-height: 1.35;
+}
+.rs2-root .rs2-empty { font-size: var(--text-xs); color: var(--text-3); font-style: italic; }
+
+.rs2-root .rs2-other-areas { display: flex; flex-direction: column; gap: 2px; }
+.rs2-root .rs2-area-link {
+  font-size: var(--text-sm); color: var(--text-2); text-decoration: none;
+  padding: 5px 0; border-bottom: 0.5px solid var(--line);
+  transition: color var(--dur);
+}
+.rs2-root .rs2-area-link:last-child { border-bottom: none; }
+.rs2-root .rs2-area-link:hover { color: var(--rose); }
+
+/* ══════════════════════════════════════════════════════════════
+   GLOBAL POLISH — PaperMod 残留清理
+══════════════════════════════════════════════════════════════ */
+
+/* 隐藏 PaperMod 自动生成的 post header（所有自定义页面已用自己的 header）*/
+.pv-page .post-header,
+.pv-page .post-meta,
+.pv-page .post-title { display: none !important; }
+
+/* 统一 main 区域最大宽度 */
+.main { max-width: 100% !important; padding: 0 !important; }
+
+/* 修复 PaperMod article 默认样式 */
+article.post-entry { all: unset; display: block; }
+
+/* 打印样式 */
+@media print {
+  .cv-root #nav,
+  .cv-root .footer,
+  .cv-root .pv-btn { display: none !important; }
+  .cv-root .cv-body { grid-template-columns: 200px 1fr !important; gap: 1.5rem !important; }
+  .cv-root .cv-sidebar { position: static !important; }
+  .cv-root { font-size: 11pt; color: #000; }
+  .cv-root .cv-name { font-size: 22pt !important; }
+}
+
+/* ── 响应式收尾 ── */
+@media (max-width: 860px) {
+  .ns-root .ns-layout  { grid-template-columns: 1fr !important; }
+  .ns-root .ns-sidebar { position: static; }
+  .rs2-root .rs2-layout  { grid-template-columns: 1fr !important; }
+  .rs2-root .rs2-sidebar { position: static; }
+}
+@media (max-width: 560px) {
+  .ns-root .ns-nav { grid-template-columns: 1fr !important; }
+}

@@ -2,50 +2,59 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Tags on Povaka</title>
-    <link>https://linon9ll.github.io/tags/</link>
+    <link>https://povaka.com/tags/</link>
     <description>Recent content in Tags on Povaka</description>
-    <image>
-      <title>Povaka</title>
-      <url>https://linon9ll.github.io/images/og-card.png</url>
-      <link>https://linon9ll.github.io/images/og-card.png</link>
-    </image>
     <generator>Hugo</generator>
-    <language>en-US</language>
+    <language>en-us</language>
     <lastBuildDate>Thu, 15 Jan 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://linon9ll.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://povaka.com/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Ip</title>
-      <link>https://linon9ll.github.io/tags/ip/</link>
+      <link>https://povaka.com/tags/ip/</link>
       <pubDate>Thu, 15 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://linon9ll.github.io/tags/ip/</guid>
+      <guid>https://povaka.com/tags/ip/</guid>
       <description></description>
     </item>
     <item>
       <title>Trade</title>
-      <link>https://linon9ll.github.io/tags/trade/</link>
+      <link>https://povaka.com/tags/trade/</link>
       <pubDate>Thu, 15 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://linon9ll.github.io/tags/trade/</guid>
+      <guid>https://povaka.com/tags/trade/</guid>
       <description></description>
     </item>
     <item>
       <title>Econometrics</title>
-      <link>https://linon9ll.github.io/tags/econometrics/</link>
+      <link>https://povaka.com/tags/econometrics/</link>
       <pubDate>Mon, 10 Nov 2025 00:00:00 +0000</pubDate>
-      <guid>https://linon9ll.github.io/tags/econometrics/</guid>
+      <guid>https://povaka.com/tags/econometrics/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Gravity Model</title>
+      <link>https://povaka.com/tags/gravity-model/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://povaka.com/tags/gravity-model/</guid>
       <description></description>
     </item>
     <item>
       <title>Innovation</title>
-      <link>https://linon9ll.github.io/tags/innovation/</link>
+      <link>https://povaka.com/tags/innovation/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://linon9ll.github.io/tags/innovation/</guid>
+      <guid>https://povaka.com/tags/innovation/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Intellectual Property</title>
+      <link>https://povaka.com/tags/intellectual-property/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://povaka.com/tags/intellectual-property/</guid>
       <description></description>
     </item>
     <item>
       <title>Technology-Transfer</title>
-      <link>https://linon9ll.github.io/tags/technology-transfer/</link>
+      <link>https://povaka.com/tags/technology-transfer/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://linon9ll.github.io/tags/technology-transfer/</guid>
+      <guid>https://povaka.com/tags/technology-transfer/</guid>
       <description></description>
     </item>
   </channel>
