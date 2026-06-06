@@ -15,7 +15,7 @@ academicLinks:
   - label: SSRN
     url: "#"
   - label: ORCID
-    url: "#"
+    url: "https://orcid.org/0009-0003-4666-1007"
 
 contact:
   - label: Email
