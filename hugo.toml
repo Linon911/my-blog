@@ -2,10 +2,12 @@ baseURL = "https://povaka.com/"
 languageCode = "en-us"
 title = "Povaka"
 theme = "PaperMod"
-paginate = 20
 enableRobotsTXT = true
 buildDrafts = false
 buildFuture = false
+
+[pagination]
+  pagerSize = 20
 
 [params]
   description = "Researcher in International Trade, Intellectual Property, and Law & Economics."
@@ -29,12 +31,10 @@ buildFuture = false
   showtoc = false
   tocopen = false
 
-  # Disable PaperMod's default home info
   [params.homeInfoParams]
     Title = ""
     Content = ""
 
-  # Social links (used in footer etc.)
   [[params.socialIcons]]
     name = "github"
     url  = "https://github.com/Linon911"
